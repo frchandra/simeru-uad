@@ -20,4 +20,4 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-Route::resource('v1/lecturer', LecturerController::class);
+Route::apiResource('v1/lecturer', LecturerController::class);

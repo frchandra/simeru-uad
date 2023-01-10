@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\LecturerServices;
 use Illuminate\Http\Request;
 
-class LecturerController extends Controller
-{
+class LecturerController extends Controller{
+    private LecturerServices $lecturerService;
+
+    public function __construct(LecturerServices $lecturerService){
+        $this->lecturerService = $lecturerService;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(){
-        //
+        $lecturers = $this->lecturerService->getALl();
+        return response()->json([
+            'status' => 'success',
+            'data' => $lecturers,
+            'data_count' => count($lecturers)
+        ], 200);
     }
 
     /**
