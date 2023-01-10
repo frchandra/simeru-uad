@@ -17,7 +17,7 @@ class LecturerFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->email(),
-            'phone_num' => fake()->phoneNumber(),
+            'phone_number' => fake()->phoneNumber(),
         ];
     }
 }

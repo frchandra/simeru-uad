@@ -49,6 +49,14 @@ class LecturerServices{
         return $affected;
     }
 
+
+    /**
+     * Update lecturer data
+     *
+     * @param int $id
+     * @return int
+     * @throws ValidationException
+     */
     public function destroy($id){
         try {
             $affected = $this->lecturerRepository->destroy($id);

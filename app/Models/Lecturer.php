@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $lecturer_id
  * @property string $name
  * @property string $email
- * @property string $phone_num
+ * @property string $phone_number
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\LecturerFactory factory(...$parameters)
@@ -28,9 +28,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Lecturer extends Model{
     use HasFactory;
+    protected $table = 'lecturers';
     protected $primaryKey = 'lecturer_id';
     public $timestamps = true;
-    protected $fillable = ['name', 'email', 'phone_num'];
+    protected $fillable = ['name', 'email', 'phone_number'];
     protected $hidden = ['created_at', 'updated_at'];
 
 

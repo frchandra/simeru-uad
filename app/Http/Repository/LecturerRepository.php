@@ -47,11 +47,11 @@ class LecturerRepository{
     }
 
     /**
-     * Delete lecturer data
+     * Update lecturer data
      *
      * @param int $id
-     * @throws ValidationException
      * @return int
+     * @throws ValidationException
      */
     public function destroy($id){
         $affected = Lecturer::destroy($id);

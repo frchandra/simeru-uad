@@ -25,7 +25,7 @@ class LecturerStoreRequest extends FormRequest{
         return [
             'name' => 'required|string|max:50|min:3',
             'email' => 'required|email|max:50|min:5',
-            'phone_num' => 'required|min:7|max:14|regex:/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\0-9]*$/i'
+            'phone_number' => 'required|min:7|max:14|regex:/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\0-9]*$/i'
         ];
     }
 
@@ -38,7 +38,7 @@ class LecturerStoreRequest extends FormRequest{
         return [
             'email.required' => 'Email is required!',
             'name.required' => 'Name is required!',
-            'phone_num.required' => 'Password is required!'
+            'phone_number.required' => 'Password is required!'
         ];
     }
 
