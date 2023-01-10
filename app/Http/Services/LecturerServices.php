@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Repository\LecturerRepository;
+use Illuminate\Validation\ValidationException;
 
 class LecturerServices{
     private LecturerRepository $lecturerRepository;
@@ -19,6 +20,42 @@ class LecturerServices{
      */
     public function getAll(){
         return $this->lecturerRepository->getAll()->toArray();
+    }
+
+    /**
+     * Create new lecturer entry
+     *
+     * @param array $newLecturer
+     * @return \App\Models\Lecturer|\Illuminate\Database\Eloquent\Model
+     */
+    public function createNew($newLecturer){
+        return $this->lecturerRepository->createNew($newLecturer);
+    }
+
+    /**
+     * Update lecturer data
+     *
+     * @param int $id
+     * @param array $newData
+     * @return int
+     * @throws ValidationException
+     */
+    public function update($id, $newData){
+        try {
+            $affected = $this->lecturerRepository->update($id, $newData);
+        } catch (ValidationException $e){
+            throw $e;
+        }
+        return $affected;
+    }
+
+    public function destroy($id){
+        try {
+            $affected = $this->lecturerRepository->destroy($id);
+        } catch (ValidationException $e){
+            throw $e;
+        }
+        return $affected;
     }
 
 

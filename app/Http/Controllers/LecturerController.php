@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LecturerStoreRequest;
+use App\Http\Requests\LecturerUpdateRequest;
 use App\Http\Services\LecturerServices;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LecturerController extends Controller{
     private LecturerServices $lecturerService;
@@ -30,10 +33,22 @@ class LecturerController extends Controller{
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request){
-        //
+    public function store(LecturerStoreRequest $request){
+        $newLecturer = $request->toArray();
+        $result = $this->lecturerService->createNew($newLecturer);
+        if($result){
+            return response()->json([
+                'status' => 'success',
+                'data' => $newLecturer
+            ], 201);
+        } else {
+            return response()->json([
+                'status' => 'fail',
+                'error_message' => 'fail to insert new data'
+            ], 500);
+        }
     }
 
     /**
@@ -51,19 +66,44 @@ class LecturerController extends Controller{
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id){
-        //
+    public function update(LecturerUpdateRequest $request, $id){
+        $newData = $request->toArray();
+        try {
+            $affected = $this->lecturerService->update($id, $newData);
+
+        } catch (ValidationException $e){
+            return response()->json([
+                'status' => 'fail',
+                'error_message' => $e->errors()['message']
+            ], 214);
+        }
+        return response()->json([
+            'status' => 'success',
+            'affected' => $affected
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id){
-        //
+        try {
+            $affected = $this->lecturerService->destroy($id);
+
+        } catch (ValidationException $e){
+            return response()->json([
+                'status' => 'fail',
+                'error_message' => $e->errors()['message']
+            ], 214);
+        }
+        return response()->json([
+            'status' => 'success',
+            'affected' => $affected
+        ]);
     }
 }

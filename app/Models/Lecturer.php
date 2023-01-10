@@ -29,7 +29,9 @@ use Illuminate\Database\Eloquent\Model;
 class Lecturer extends Model{
     use HasFactory;
     protected $primaryKey = 'lecturer_id';
-    protected $guarded = [];
+    public $timestamps = true;
+    protected $fillable = ['name', 'email', 'phone_num'];
+    protected $hidden = ['created_at', 'updated_at'];
 
 
 }
