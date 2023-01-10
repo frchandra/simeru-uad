@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: .docker/app.Dockerfile
+        image: 'uad-app' #change me [4]
+        container_name: 'uad-app' #change me [4]
+        volumes:
+            - ./:/var/www:Z #change me [1]
+            - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini:Z
+        networks:
+            - uad-network #change me [5]
+        depends_on:
+            - db
+
+    server:
+        image: nginx:alpine
+        container_name: 'uad-nginx' #change me
+        restart: unless-stopped
+        tty: true
+        privileged: true
+        volumes:
+            - ./:/var/www # change me [1]
+            - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/ #chane me [3]
+        ports:
+            - "80:80"
+            - "443:443"
+        networks:
+            - uad-network #change me [5]
+
+    db:
+        image: 'mariadb:10.5-focal'
+        container_name: uad-db #change me [2]
+        restart: unless-stopped
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: uad_db #change me [6]
+            MYSQL_ROOT_PASSWORD: root #change me
+            MYSQL_PASSWORD: root #change me
+            MYSQL_USER: chandra #change me
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+        volumes:
+            - ./.docker/dbdata:/var/lib/mysql:Z #change me [2]
+        networks:
+            - uad-network #change me [5]
+
+networks:
+    uad-network: #change me [5]
+        driver: bridge
