@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             LecturerSeeder::class,
             SubClassSeeder::class,
             RoomSeeder::class,
+            TimeSeeder::class,
+            AcademicYearSeeder::class,
         ]);
     }
 }

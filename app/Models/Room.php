@@ -13,6 +13,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Room newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room query()
  * @mixin \Eloquent
+ * @property int $room_id
+ * @property string $name
+ * @property int $quota
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereQuota($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereRoomId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereUpdatedAt($value)
  */
 class Room extends Model{
     use HasFactory;
