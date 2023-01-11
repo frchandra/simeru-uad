@@ -35,5 +35,9 @@ class Lecturer extends Model{
     protected $fillable = ['name', 'email', 'phone_number'];
     protected $hidden = ['created_at', 'updated_at'];
 
+    public function lecturerPlots(){
+        return $this->hasMany(LecturerPlot::class, 'lecturer_id', 'lecturer_id');
+    }
+
 
 }

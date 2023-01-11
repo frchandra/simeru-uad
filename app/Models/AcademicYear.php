@@ -31,4 +31,10 @@ class AcademicYear extends Model{
     protected $primaryKey = 'academic_year_id';
     public $timestamps = true;
 
+    public function lecturerPlots(){
+        return $this->hasMany(LecturerPlot::class, 'academic_year_id', 'academic_year_id');
+    }
+
+
+
 }

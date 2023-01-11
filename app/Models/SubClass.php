@@ -36,4 +36,8 @@ class SubClass extends Model{
     public $timestamps = true;
     protected $fillable = ['name', 'quota', 'credit', 'semester'];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function lecturerPlot(){
+        return $this->hasOne(LecturerPlot::class, 'sub_class_id', 'sub_class_id');
+    }
 }

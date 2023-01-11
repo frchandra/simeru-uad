@@ -22,4 +22,16 @@ class LecturerPlot extends Model{
     public $timestamps = true;
     protected $fillable = ['lecturer_id', 'sub_class_id', 'academic_year_id'];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function lecturer(){
+        return $this->belongsTo(Lecturer::class, 'lecturer_id', 'lecturer_id');
+    }
+
+    public function subClass(){
+        return $this->belongsTo(SubClass::class, 'sub_class_id', 'sub_class_id');
+    }
+
+    public function academicYear(){
+        return $this->belongsTo(AcademicYear::class, 'academic_year_id', 'academic_year_id');
+    }
 }
