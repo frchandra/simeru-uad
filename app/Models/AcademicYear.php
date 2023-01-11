@@ -35,6 +35,9 @@ class AcademicYear extends Model{
         return $this->hasMany(LecturerPlot::class, 'academic_year_id', 'academic_year_id');
     }
 
+    public function lecturerCredits(){
+        return $this->hasMany(LecturerCredit::class, 'academic_year_id', 'academic_year_id');
+    }
 
 
 }
