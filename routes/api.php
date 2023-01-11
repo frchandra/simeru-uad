@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LecturerController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SubClassController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('v1/lecturer', LecturerController::class);
 Route::apiResource('v1/subclass', SubClassController::class);
+Route::apiResource('v1/room', RoomController::class);
 

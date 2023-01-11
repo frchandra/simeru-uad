@@ -14,7 +14,7 @@ class SubClassRepository{
      * @return Collection
      */
     public function getAll(){
-        return QueryBuilder::for(SubClass::class)->allowedFilters(['sub_class_id','name'])->get();
+        return QueryBuilder::for(SubClass::class)->allowedFilters(['sub_class_id','name','quota','credit','semester'])->get();
     }
 
     /**

@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\LecturerServiceProvider::class,
         App\Providers\SubClassServiceProvider::class,
+        App\Providers\RoomServiceProvider::class,
 
     ],
 
