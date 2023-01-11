@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Repository\LecturerRepository;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 
 class LecturerServices{
@@ -33,6 +34,21 @@ class LecturerServices{
     }
 
     /**
+     * Show one lecturer data
+     *
+     * @param int
+     * @return array
+     * @throws ValidationException
+     */
+    public function show($id){
+        $lecture =  $this->lecturerRepository->show($id);
+        if($lecture->count()<1){
+            throw  ValidationException::withMessages(['message' => 'cannot find the corresponding lecturer for the given lecturer_id']);
+        }
+        return $lecture->toArray();
+    }
+
+    /**
      * Update lecturer data
      *
      * @param int $id
@@ -41,10 +57,9 @@ class LecturerServices{
      * @throws ValidationException
      */
     public function update($id, $newData){
-        try {
-            $affected = $this->lecturerRepository->update($id, $newData);
-        } catch (ValidationException $e){
-            throw $e;
+        $affected = $this->lecturerRepository->update($id, $newData);
+        if($affected < 1) {
+            throw ValidationException::withMessages(['message' => 'cannot find the corresponding lecturer for the given lecturer_id']);
         }
         return $affected;
     }
@@ -58,13 +73,11 @@ class LecturerServices{
      * @throws ValidationException
      */
     public function destroy($id){
-        try {
-            $affected = $this->lecturerRepository->destroy($id);
-        } catch (ValidationException $e){
-            throw $e;
+        $affected = $this->lecturerRepository->destroy($id);
+        if($affected < 1){
+            throw ValidationException::withMessages(['message' => 'cannot find the corresponding lecturer for the given lecturer_id']);
         }
         return $affected;
     }
-
 
 }

@@ -36,7 +36,7 @@ class LecturerController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(LecturerStoreRequest $request){
-        $newLecturer = $request->toArray();
+        $newLecturer = $request->only(['name', 'email', 'phone_number']);
         $result = $this->lecturerService->createNew($newLecturer);
         if($result){
             return response()->json([
@@ -55,10 +55,21 @@ class LecturerController extends Controller{
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id){
-        //
+        try {
+            $lecturer = $this->lecturerService->show($id);
+        } catch (ValidationException $e){
+            return response()->json([
+                'status' => 'fail',
+                'error_message' => $e->errors()['message']
+            ], 214);
+        }
+        return response()->json([
+            'status' => 'success',
+            'data' => $lecturer
+        ], 201);
     }
 
     /**
@@ -69,7 +80,7 @@ class LecturerController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(LecturerUpdateRequest $request, $id){
-        $newData = $request->toArray();
+        $newData = $request->only(['name', 'email', 'phone_number']);
         try {
             $affected = $this->lecturerService->update($id, $newData);
 

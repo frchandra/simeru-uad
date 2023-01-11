@@ -31,19 +31,25 @@ class LecturerRepository{
 
 
     /**
+     * Show one lecturer data
+     *
+     * @param int
+     * @return Collection
+     */
+    public function show($id){
+        return Lecturer::whereLecturerId($id)->get();
+    }
+
+
+    /**
      * Update lecturer data
      *
      * @param int $id
      * @param array $newData
      * @return int
-     * @throws ValidationException
      */
     public function update($id, $newData){
-        $affected =  Lecturer::where('lecturer_id', $id)->update($newData);
-        if($affected < 1){
-            throw ValidationException::withMessages(['message' => 'cannot find the corresponding lecturer for the given lecturer_id']);
-        }
-        return $affected;
+        return Lecturer::where('lecturer_id', $id)->update($newData);
     }
 
     /**
@@ -51,13 +57,8 @@ class LecturerRepository{
      *
      * @param int $id
      * @return int
-     * @throws ValidationException
      */
     public function destroy($id){
-        $affected = Lecturer::destroy($id);
-        if($affected < 1){
-            throw ValidationException::withMessages(['message' => 'cannot find the corresponding lecturer for the given lecturer_id']);
-        }
-        return $affected;
+        return Lecturer::destroy($id);
     }
 }

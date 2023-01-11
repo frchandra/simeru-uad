@@ -25,10 +25,10 @@ class SubClassStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:30',
-            'quota' => 'required|numeric',
-            'credit' => 'required|numeric',
-            'semester' => 'required|numeric'
+            'name' => 'present|required|min:3|max:30',
+            'quota' => 'present|required|numeric',
+            'credit' => 'present|required|numeric',
+            'semester' => 'present|required|numeric'
         ];
     }
 
