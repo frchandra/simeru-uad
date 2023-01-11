@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LecturerStoreRequest extends FormRequest{
+class SubClassUpdateRequest extends FormRequest{
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,24 +23,13 @@ class LecturerStoreRequest extends FormRequest{
      */
     public function rules(){
         return [
-            'name' => 'present|required|string|max:50|min:3',
-            'email' => 'present|required|email|max:50|min:5',
-            'phone_number' => 'present|required|min:7|max:14|regex:/^[(]*[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\0-9]*$/i'
+            'name' => 'present|required|min:3|max:30',
+            'quota' => 'present|required|numeric',
+            'credit' => 'present|required|numeric',
+            'semester' => 'present|required|numeric'
         ];
     }
 
-    /**
-     * Custom message for validation
-     *
-     * @return array
-     */
-    public function messages(){
-        return [
-            'email.required' => 'Email is required!',
-            'name.required' => 'Name is required!',
-            'phone_number.required' => 'Phone number is required!'
-        ];
-    }
 
     /**
      * Get the error messages for the defined validation rules.*

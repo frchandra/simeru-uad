@@ -22,8 +22,7 @@ class SubClassStoreRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
-    {
+    public function rules(){
         return [
             'name' => 'present|required|min:3|max:30',
             'quota' => 'present|required|numeric',

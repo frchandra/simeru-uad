@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SubClassStoreRequest;
 use App\Http\Services\SubClassServices;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class SubClassController extends Controller{
     private SubClassServices $subClassServices;
@@ -34,7 +35,7 @@ class SubClassController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SubClassStoreRequest $request){
-        $newSubClass = $request->toArray();
+        $newSubClass = $request->only(['name', 'quota', 'credit', 'semester']);
         $result = $this->subClassServices->createNew($newSubClass);
         if($result){
             return response()->json([
@@ -53,11 +54,21 @@ class SubClassController extends Controller{
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
-    {
-        //
+    public function show($id){
+        try {
+            $subClass = $this->subClassServices->show($id);
+        } catch (ValidationException $e){
+            return response()->json([
+                'status' => 'fail',
+                'error_message' => $e->errors()['message']
+            ], 214);
+        }
+        return response()->json([
+            'status' => 'success',
+            'data' => $subClass
+        ], 201);
     }
 
     /**
@@ -65,21 +76,44 @@ class SubClassController extends Controller{
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id){
+        $newData = $request->only(['name', 'quota', 'credit', 'semester']);
+        try {
+            $affected = $this->subClassServices->update($id, $newData);
+
+        } catch (ValidationException $e){
+            return response()->json([
+                'status' => 'fail',
+                'error_message' => $e->errors()['message']
+            ], 214);
+        }
+        return response()->json([
+            'status' => 'success',
+            'affected' => $affected
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id){
+        try {
+            $affected = $this->subClassServices->destroy($id);
+
+        } catch (ValidationException $e){
+            return response()->json([
+                'status' => 'fail',
+                'error_message' => $e->errors()['message']
+            ], 214);
+        }
+        return response()->json([
+            'status' => 'success',
+            'affected' => $affected
+        ]);
     }
 }

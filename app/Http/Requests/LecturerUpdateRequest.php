@@ -25,7 +25,7 @@ class LecturerUpdateRequest extends FormRequest{
         return [
             'name' => 'present|string|max:50|min:3',
             'email' => 'present|email|max:50|min:5',
-            'phone_number' => 'present|min:7|max:14|regex:/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\0-9]*$/i'
+            'phone_number' => 'present|min:7|max:14|regex:/^[(]*[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\0-9]*$/i'
         ];
     }
 

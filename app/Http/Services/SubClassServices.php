@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Repository\SubClassRepository;
+use Illuminate\Validation\ValidationException;
 
 class SubClassServices{
     private SubClassRepository $subClassRepository;
@@ -21,12 +22,58 @@ class SubClassServices{
     }
 
     /**
-     * Create new lecturer entry
+     * Create new subclass entry
      *
-     * @param array $newLecturer
-     * @return \App\Models\Lecturer|\Illuminate\Database\Eloquent\Model
+     * @param array $newSubClass
+     * @return \App\Models\SubClass|\Illuminate\Database\Eloquent\Model
      */
-    public function createNew($newLecturer){
-        return $this->subClassRepository->createNew($newLecturer);
+    public function createNew($newSubClass){
+        return $this->subClassRepository->createNew($newSubClass);
+    }
+
+    /**
+     * Show one SubClass data
+     *
+     * @param int
+     * @return array
+     * @throws ValidationException
+     */
+    public function show($id){
+        $subClass =  $this->subClassRepository->show($id);
+        if($subClass->count()<1){
+            throw  ValidationException::withMessages(['message' => 'cannot find the corresponding sub class for the given sub_class_id']);
+        }
+        return $subClass->toArray();
+    }
+
+    /**
+     * Update subclass data
+     *
+     * @param int $id
+     * @param array $newData
+     * @return int
+     * @throws ValidationException
+     */
+    public function update($id, $newData){
+        $affected = $this->subClassRepository->update($id, $newData);
+        if($affected < 1) {
+            throw ValidationException::withMessages(['message' => 'cannot find the corresponding subclass for the given sub_class_id']);
+        }
+        return $affected;
+    }
+
+    /**
+     * Update subclass data
+     *
+     * @param int $id
+     * @return int
+     * @throws ValidationException
+     */
+    public function destroy($id){
+        $affected = $this->subClassRepository->destroy($id);
+        if($affected < 1){
+            throw ValidationException::withMessages(['message' => 'cannot find the corresponding subclass for the given sub_class_id']);
+        }
+        return $affected;
     }
 }
