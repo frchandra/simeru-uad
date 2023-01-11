@@ -5,6 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\LecturerCredit
+ *
+ * @property int $lecturer_credit_id
+ * @property int $lecturer_id
+ * @property int $academic_year_id
+ * @property string $name
+ * @property int $credit
+ * @property int $sub_class_count
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\AcademicYear $academicYears
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit query()
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereAcademicYearId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereCredit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereLecturerCreditId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereLecturerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereSubClassCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class LecturerCredit extends Model{
     use HasFactory;
     protected $table = 'lecturer_credits';

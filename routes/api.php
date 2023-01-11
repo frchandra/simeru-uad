@@ -30,6 +30,7 @@ Route::apiResource('v1/subclass', SubClassController::class);
 Route::apiResource('v1/room', RoomController::class);
 
 Route::get('v1/lecturer_plot/{acadYearId}', [LecturerPlotController::class, 'getJoinedByAcadYearId']);
+Route::post('v1/lecturer_plot/allocation', [LecturerPlotController::class, 'allocateLecturer']);
 Route::apiResource('v1/lecturer_plot', LecturerPlotController::class);
 
 

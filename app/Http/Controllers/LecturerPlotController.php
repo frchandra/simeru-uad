@@ -40,6 +40,28 @@ class LecturerPlotController extends Controller{
         ],200);
     }
 
+    public function allocateLecturer(Request $request){
+        $allocations = $request->get('data');
+
+        //start transaction
+            //untuk semua element dalam array
+                //cek table lecture_credit untuk mengetahui apakah sks dosen masih cukup
+                //cek apakah ada lecturer_id yang sama untuk sub_class_id yang berbeda (tidak boleh ada sub_class yang diampu dua dosen sekaligus)
+                //insert data baru ke lecturer_plots
+        //end transaaction
+
+        foreach ($allocations as $allocation){
+
+        }
+
+
+
+        return response()->json([
+            "data" => $allocation,
+            "type" => var_export($allocation, true)
+        ], 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

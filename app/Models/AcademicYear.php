@@ -24,6 +24,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|AcademicYear whereSemester($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AcademicYear whereStartYear($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AcademicYear whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LecturerCredit[] $lecturerCredits
+ * @property-read int|null $lecturer_credits_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LecturerPlot[] $lecturerPlots
+ * @property-read int|null $lecturer_plots_count
  */
 class AcademicYear extends Model{
     use HasFactory;

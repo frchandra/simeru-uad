@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|SubClass whereSubClassId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubClass whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\LecturerPlot|null $lecturerPlot
  */
 class SubClass extends Model{
     use HasFactory;

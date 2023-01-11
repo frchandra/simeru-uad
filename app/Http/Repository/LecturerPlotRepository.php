@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Repository;
+use App\Models\LecturerCredit;
 use Illuminate\Database\Eloquent\Collection;
 use \Illuminate\Support\Facades\DB;
 
@@ -29,6 +30,10 @@ class LecturerPlotRepository{
             ->where('lecturer_plots.academic_year_id', '=', $acadYearId)
             ->get();
         return $LecturePlots;
+    }
+
+    public function getLecturerTotalCredit($lecturerId){
+        return LecturerCredit::whereLecturerId($lecturerId)->where('credit', '<', '12')->first()->credit; //TODO: buat value sks menjadi dinamik
     }
 
 

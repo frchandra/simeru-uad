@@ -13,6 +13,23 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot query()
  * @mixin \Eloquent
+ * @property int $lecturer_plot_id
+ * @property int $lecturer_id
+ * @property int $sub_class_id
+ * @property int $academic_year_Id
+ * @property int $is_held
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\AcademicYear $academicYear
+ * @property-read \App\Models\Lecturer $lecturer
+ * @property-read \App\Models\SubClass $subClass
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereAcademicYearId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereIsHeld($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereLecturerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereLecturerPlotId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereSubClassId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereUpdatedAt($value)
  */
 class LecturerPlot extends Model{
     use HasFactory;
