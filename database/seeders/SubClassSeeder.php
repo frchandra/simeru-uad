@@ -14,6 +14,6 @@ class SubClassSeeder extends Seeder{
      * @return void
      */
     public function run(){
-        SubClass::factory(30)->create();
+        SubClass::factory(12)->create();
     }
 }

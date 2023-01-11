@@ -14,10 +14,10 @@ class LecturerPlotSeeder extends Seeder
      * @return void
      */
     public function run(){
-        for($i=1; $i<31; $i++){
+        for($i=1; $i<13; $i++){
             LecturerPlot::create([
                 'is_held' => false,
-                'lecturer_id' => fake()->numberBetween(1,10),
+                'lecturer_id' => fake()->numberBetween(1,6),
                 'sub_class_id' => $i,
                 'academic_year_id' => 2
             ]);
