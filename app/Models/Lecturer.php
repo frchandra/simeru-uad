@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Lecturer wherePhoneNum($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Lecturer whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|Lecturer wherePhoneNumber($value)
  */
 class Lecturer extends Model{
     use HasFactory;
