@@ -44,38 +44,25 @@ class LecturerPlotController extends Controller{
     public function allocateLecturer(Request $request){
         $allocations = $request->get('data');
 
-        //start transaction
-            //untuk semua element dalam array
-                //cek table lecture_credit untuk mengetahui apakah sks dosen masih cukup
-                //cek apakah ada lecturer_id yang sama untuk sub_class_id yang berbeda (tidak boleh ada sub_class yang diampu dua dosen sekaligus)
-                //insert data baru ke lecturer_plots
-        //end transaaction
-
+        \DB::beginTransaction();
         foreach ($allocations as $allocation){
             try {
                 $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
                 $this->lecturerPlotServices->checkPlotAvailability($allocation['sub_class_id'], $allocation['academic_year_id']);
-                $data = $this->lecturerPlotServices->allocateLecturer($allocation);
-
+                $this->lecturerPlotServices->allocateLecturer($allocation);
             } catch (ValidationException $e){
+                \DB::rollBack();
                 return response()->json([
-                    "status" => "fai",
+                    "status" => "fail",
                     "messages" => $e->errors()['messages'],
                 ], 400);
             }
-            return response()->json([
-                "status" => "success",
-                "data" => $data
-            ], 201);
-
         }
+        \DB::commit();
 
-
-
-/*        return response()->json([
-            "data" => $allocation,
-            "type" => var_export($allocation, true)
-        ], 200);*/
+        return response()->json([
+            "status" => "success",
+        ], 201);
     }
 
     /**

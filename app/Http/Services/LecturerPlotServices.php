@@ -46,7 +46,10 @@ class LecturerPlotServices{
         $lecturerCredit = $lecturer->credit;
         if( $lecturerCredit+$classCredit > 6){
             throw ValidationException::withMessages([
-                'messages' => 'this lecturer is already take ' . $lecturerCredit . ' credit. Cant take another '. $classCredit .' credit'
+                'messages' => [
+                    ['description' => 'this lecturer is already take ' . $lecturerCredit . ' credit. Cant take another '. $classCredit .' credit'],
+                    ['lecturer_id' => $lecturer->lecturer_id]
+                ]
             ]); //TODO: make the credit value dynamic
         }
         return true;
