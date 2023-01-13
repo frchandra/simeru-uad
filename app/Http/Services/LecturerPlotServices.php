@@ -41,10 +41,6 @@ class LecturerPlotServices{
         if($lecturer == null){
             return true;
         }
-/*        //If the lecturer for the semester has been allocated then return error
-        if($lecturerId != null){
-            throw ValidationException::withMessages(['messages' => 'this lecturer is already created for this semester']);
-        }*/
         //If the lecturer has surpassed the allowed credits then return error
         $classCredit = $this->subClassRepository->show($classId)->first()->toArray()['credit'];
         $lecturerCredit = $lecturer->credit;
@@ -94,9 +90,4 @@ class LecturerPlotServices{
         }
         return $data;
     }
-
-
-
-
-
 }

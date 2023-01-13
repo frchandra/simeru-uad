@@ -82,6 +82,4 @@ class LecturerPlotRepository{
         DB::table('lecturer_credits')->increment('credit', $credit);
         DB::table('lecturer_credits')->increment('sub_class_count', $classCount);
     }
-
-
 }
