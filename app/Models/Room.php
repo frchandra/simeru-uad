@@ -31,4 +31,8 @@ class Room extends Model{
     public $timestamps = true;
     protected $fillable = ['name', 'quota'];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function roomTimes(){
+        return $this->hasMany(RoomTime::class, 'room_id', 'room_id');
+    }
 }

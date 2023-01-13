@@ -28,4 +28,13 @@ use Illuminate\Database\Eloquent\Model;
 class RoomTime extends Model{
     use HasFactory;
     protected $table='room_times';
+    protected $primaryKey = 'room_time_id';
+    public $timestamps = true;
+    protected $fillable = ['room_id', 'time_id', 'academic_year_id', 'is_occupied'];
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function rooms(){
+        return $this->belongsTo(Room::class, 'room_id', 'room_id');
+    }
 }
+
