@@ -11,4 +11,9 @@ class ScheduleServices{
         $this->scheduleRepository = $scheduleRepository;
     }
 
+    public function checkLectuererConflict(){
+        //ambil data RoomTime berdasarkan roomId yang diberikan
+        //
+    }
+
 }

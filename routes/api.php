@@ -5,6 +5,7 @@ use App\Http\Controllers\LecturerPlotController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SubClassController;
 use App\Http\Controllers\RoomTimeController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,4 +36,4 @@ Route::apiResource('v1/lecturer_plot', LecturerPlotController::class);
 
 Route::apiResource('v1/room_time', RoomTimeController::class);
 
-
+Route::apiResource('/v1/schedule', ScheduleController::class);

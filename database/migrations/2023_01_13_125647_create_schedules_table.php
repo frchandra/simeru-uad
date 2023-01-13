@@ -20,6 +20,11 @@ return new class extends Migration
             $table->unsignedBigInteger('room_time_id');
             $table->unsignedBigInteger('academic_year_id');
 
+            $table->unsignedBigInteger('lecturer_id');
+            $table->unsignedBigInteger('sub_class_id');
+            $table->unsignedBigInteger('room_id');
+            $table->unsignedBigInteger('time_id');
+
             $table->foreign('lecturer_plot_id')->references('lecturer_plot_id')->on('lecturer_plots');
             $table->foreign('room_time_id')->references('room_time_id')->on('room_times');
             $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years');
