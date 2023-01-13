@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id('schedule_id');
 
             $table->unsignedBigInteger('lecturer_plot_id');
-            $table->unsignedBigInteger('time_room_id');
+            $table->unsignedBigInteger('room_time_id');
             $table->unsignedBigInteger('academic_year_id');
 
             $table->foreign('lecturer_plot_id')->references('lecturer_plot_id')->on('lecturer_plots');
-            $table->foreign('time_room_id')->references('time_room_id')->on('time_rooms');
+            $table->foreign('room_time_id')->references('room_time_id')->on('room_times');
             $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years');
 
             $table->timestamps();
