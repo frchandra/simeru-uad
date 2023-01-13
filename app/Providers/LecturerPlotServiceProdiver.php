@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Repository\LecturerPlotRepository;
+use App\Http\Repository\SubClassRepository;
 use App\Http\Services\LecturerPlotServices;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,7 +19,7 @@ class LecturerPlotServiceProdiver extends ServiceProvider{
         });
 
         $this->app->singleton(LecturerPlotServices::class, function($app){
-            return new LecturerPlotServices($app->make(LecturerPlotRepository::class));
+            return new LecturerPlotServices($app->make(LecturerPlotRepository::class), $app->make(SubClassRepository::class));
         });
     }
 

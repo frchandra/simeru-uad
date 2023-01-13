@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Repository\LecturerRepository;
+use App\Http\Repository\SubClassRepository;
 use App\Http\Services\LecturerServices;
 use Illuminate\Support\ServiceProvider;
 

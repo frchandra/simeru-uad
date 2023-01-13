@@ -51,14 +51,36 @@ class LecturerPlotRepository{
      *
      * @param int $semesterId
      * @param int $subClassId
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerCredit|object
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerPlot|object
      */
     public function getBySubClassSemester($subClassId, $semesterId){
         return LecturerPlot::whereAcademicYearId($semesterId)->where('sub_class_id', '=', $subClassId)->first();
     }
 
+
     public function allocateLecturer($allocation){
         return LecturerPlot::create($allocation);
+    }
+
+    public function isLecturerCreditExist($lectureId, $semesterId){
+        return LecturerCredit::where([
+                'lecturer_id' => $lectureId,
+                'academic_year_id' => $semesterId,
+            ])->get();
+    }
+
+    public function createLecturerCredit($lectureId, $classCount, $semesterId, $credit){
+        return LecturerCredit::create([
+            'lecturer_id' => $lectureId,
+            'sub_class_count' => $classCount,
+            'academic_year_id' => $semesterId,
+            'credit' => $credit,
+        ]);
+    }
+
+    public function incrementLecturerCredit($credit, $classCount){
+        DB::table('lecturer_credits')->increment('credit', $credit);
+        DB::table('lecturer_credits')->increment('sub_class_count', $classCount);
     }
 
 

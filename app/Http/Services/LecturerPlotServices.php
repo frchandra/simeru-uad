@@ -3,16 +3,17 @@
 namespace App\Http\Services;
 
 use App\Http\Repository\LecturerPlotRepository;
-use App\Models\LecturerPlot;
-use Illuminate\Database\Eloquent\Collection;
+use App\Http\Repository\SubClassRepository;
 use Illuminate\Validation\ValidationException;
 
 
 class LecturerPlotServices{
     private LecturerPlotRepository $lecturerPlotRepository;
+    private SubClassRepository $subClassRepository;
 
-    public function __construct(LecturerPlotRepository $lecturerPlotRepository){
+    public function __construct(LecturerPlotRepository $lecturerPlotRepository, SubClassRepository $subClassRepository){
         $this->lecturerPlotRepository = $lecturerPlotRepository;
+        $this->subClassRepository = $subClassRepository;
     }
 
     /**
@@ -34,20 +35,23 @@ class LecturerPlotServices{
      * @throws ValidationException
      * @return boolean
      */
-    public function checkLecturerAvailability($lecturerId, $semesterId){
+    public function checkLecturerAvailability($lecturerId, $semesterId, $classId){
         $lecturer = $this->lecturerPlotRepository->getLecturerBySemester($lecturerId, $semesterId);
         //If the lecturer has not allocated for the semester then return true
         if($lecturer == null){
             return true;
         }
-        //If the lecturer for the semester has been allocated then return error
+/*        //If the lecturer for the semester has been allocated then return error
         if($lecturerId != null){
             throw ValidationException::withMessages(['messages' => 'this lecturer is already created for this semester']);
-        }
+        }*/
         //If the lecturer has surpassed the allowed credits then return error
-        $credit = $lecturer->credit;
-        if( $credit > 12){
-            throw ValidationException::withMessages(['messages' => 'this lecturer is already take ' . $credit . ' credit']); //TODO: make the credit value dynamic
+        $classCredit = $this->subClassRepository->show($classId)->first()->toArray()['credit'];
+        $lecturerCredit = $lecturer->credit;
+        if( $lecturerCredit+$classCredit > 6){
+            throw ValidationException::withMessages([
+                'messages' => 'this lecturer is already take ' . $lecturerCredit . ' credit. Cant take another '. $classCredit .' credit'
+            ]); //TODO: make the credit value dynamic
         }
         return true;
     }
@@ -68,16 +72,30 @@ class LecturerPlotServices{
         }
         //If the allocation (plot) has been created return error
         if($subClass != null){
-            throw ValidationException::withMessages(['messages' => 'this class is has been allocated for lecturer with ID=' . $subClass->lecturer_id .' for this semester']);
+            throw ValidationException::withMessages([
+                'messages' => [
+                    ['description' => 'this class is has been allocated for lecturer with ID=' . $subClass->lecturer_id .' for this semester'],
+                    ['lecturer_id' => $subClass->lecturer_id]]
+            ]);
         }
         return true;
     }
 
     public function allocateLecturer($allocation){
         $allocation['is_held'] = false;
-//        return $allocation;
-        return $this->lecturerPlotRepository->allocateLecturer($allocation);
+        $data = $this->lecturerPlotRepository->allocateLecturer($allocation);
+        //Update lecturer credit data
+        $classCredit = $this->subClassRepository->show($allocation['sub_class_id'])->first()->toArray()['credit'];
+        $lecturerCredit = $this->lecturerPlotRepository->isLecturerCreditExist($allocation['lecturer_id'], $allocation['academic_year_id']);
+        if($lecturerCredit->count()<1){
+            $this->lecturerPlotRepository->createLecturerCredit($allocation['lecturer_id'], 1, $allocation['academic_year_id'], $classCredit);
+        } else {
+            $this->lecturerPlotRepository->incrementLecturerCredit($classCredit, 1);
+        }
+        return $data;
     }
+
+
 
 
 

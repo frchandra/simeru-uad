@@ -53,9 +53,10 @@ class LecturerPlotController extends Controller{
 
         foreach ($allocations as $allocation){
             try {
-                $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id']);
+                $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
                 $this->lecturerPlotServices->checkPlotAvailability($allocation['sub_class_id'], $allocation['academic_year_id']);
                 $data = $this->lecturerPlotServices->allocateLecturer($allocation);
+
             } catch (ValidationException $e){
                 return response()->json([
                     "status" => "fai",
