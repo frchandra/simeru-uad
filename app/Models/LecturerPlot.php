@@ -37,7 +37,7 @@ class LecturerPlot extends Model{
     protected $table = 'lecturer_plots';
     protected $primaryKey = 'lecturer_plot_id';
     public $timestamps = true;
-    protected $fillable = ['lecturer_id', 'sub_class_id', 'academic_year_id'];
+    protected $fillable = ['lecturer_id', 'sub_class_id', 'academic_year_id', 'is_held'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function lecturer(){

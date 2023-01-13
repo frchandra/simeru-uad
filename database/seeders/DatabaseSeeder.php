@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             RoomSeeder::class,
             TimeSeeder::class,
             AcademicYearSeeder::class,
-            LecturerPlotSeeder::class,
+//            LecturerPlotSeeder::class,
         ]);
     }
 }

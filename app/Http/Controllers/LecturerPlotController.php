@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\LecturerPlotServices;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LecturerPlotController extends Controller{
     private LecturerPlotServices $lecturerPlotServices;
@@ -51,15 +52,29 @@ class LecturerPlotController extends Controller{
         //end transaaction
 
         foreach ($allocations as $allocation){
+            try {
+                $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id']);
+                $this->lecturerPlotServices->checkPlotAvailability($allocation['sub_class_id'], $allocation['academic_year_id']);
+                $data = $this->lecturerPlotServices->allocateLecturer($allocation);
+            } catch (ValidationException $e){
+                return response()->json([
+                    "status" => "fai",
+                    "messages" => $e->errors()['messages'],
+                ], 400);
+            }
+            return response()->json([
+                "status" => "success",
+                "data" => $data
+            ], 201);
 
         }
 
 
 
-        return response()->json([
+/*        return response()->json([
             "data" => $allocation,
             "type" => var_export($allocation, true)
-        ], 200);
+        ], 200);*/
     }
 
     /**

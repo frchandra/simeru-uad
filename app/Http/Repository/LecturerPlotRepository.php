@@ -2,8 +2,10 @@
 
 namespace App\Http\Repository;
 use App\Models\LecturerCredit;
+use App\Models\LecturerPlot;
 use Illuminate\Database\Eloquent\Collection;
 use \Illuminate\Support\Facades\DB;
+
 
 class LecturerPlotRepository{
 
@@ -32,8 +34,31 @@ class LecturerPlotRepository{
         return $LecturePlots;
     }
 
-    public function getLecturerTotalCredit($lecturerId){
-        return LecturerCredit::whereLecturerId($lecturerId)->where('credit', '<', '12')->first()->credit; //TODO: buat value sks menjadi dinamik
+    /**
+     * Return lecturer data for a semester
+     *
+     * @param int $lecturerId
+     * @param int $semesterId
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerCredit|object
+     */
+    public function getLecturerBySemester($lecturerId, $semesterId){
+        return LecturerCredit::whereLecturerId($lecturerId)->where('academic_year_id', '=', $semesterId)->first();
+    }
+
+
+    /**
+     * Return lecturer data for a semester
+     *
+     * @param int $semesterId
+     * @param int $subClassId
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerCredit|object
+     */
+    public function getBySubClassSemester($subClassId, $semesterId){
+        return LecturerPlot::whereAcademicYearId($semesterId)->where('sub_class_id', '=', $subClassId)->first();
+    }
+
+    public function allocateLecturer($allocation){
+        return LecturerPlot::create($allocation);
     }
 
 

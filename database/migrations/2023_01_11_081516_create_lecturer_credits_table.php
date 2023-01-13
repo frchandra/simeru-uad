@@ -16,7 +16,6 @@ return new class extends Migration{
             $table->unsignedBigInteger('lecturer_id');
             $table->unsignedBigInteger('academic_year_id');
 
-            $table->string('name');
             $table->unsignedSmallInteger('credit');
             $table->unsignedSmallInteger('sub_class_count');
 
