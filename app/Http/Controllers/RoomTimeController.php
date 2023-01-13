@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repository\RoomTimeRepository;
-use App\Http\Requests\RoomTimeRequest;
+use App\Http\Requests\RoomTimeStoreRequest;
 use App\Http\Services\RoomTimeServices;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -35,18 +35,21 @@ class RoomTimeController extends Controller{
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(RoomTimeRequest $request){
+    public function store(RoomTimeStoreRequest $request){
         $allocations = $request->get('data');
+        \DB::beginTransaction();
         foreach ($allocations as $allocation){
             try {
                 $this->roomTimeServices->create($allocation);
             } catch (ValidationException $e){
+                \DB::rollBack();
                 return response()->json([
                     "status" => "fail",
                     "message" => $e->errors()['messages'],
                 ]);
             }
         }
+        \DB::commit();
         return response()->json([
             "status" => "success"
         ], 201);

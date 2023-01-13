@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RoomTimeRequest extends FormRequest
+class RoomTimeStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class RoomTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'present',
+            'data' => 'present|required|array',
             'data.*.room_id' => 'present|required|numeric',
             'data.*.time_id' => 'present|required|numeric',
             'data.*.academic_year_id' => 'present|required|numeric',
