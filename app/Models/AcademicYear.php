@@ -43,5 +43,14 @@ class AcademicYear extends Model{
         return $this->hasMany(LecturerCredit::class, 'academic_year_id', 'academic_year_id');
     }
 
+    public function schedules(){
+        return $this->hasMany(Schedule::class, 'academic_year_id', 'academic_year_id');
+    }
+
+    public function roomTimes(){
+        return $this->hasMany(RoomTime::class, 'academic_year_id', 'academic_year_id');
+    }
+
+
 
 }

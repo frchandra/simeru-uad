@@ -33,8 +33,20 @@ class RoomTime extends Model{
     protected $fillable = ['room_id', 'time_id', 'academic_year_id', 'is_occupied'];
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function rooms(){
+    public function room(){
         return $this->belongsTo(Room::class, 'room_id', 'room_id');
+    }
+
+    public function time(){
+        return $this->belongsTo(Time::class, 'time_id', 'time_id');
+    }
+
+    public function academicYear(){
+        return $this->belongsTo(AcademicYear::class, 'academic_year_id', 'academic_year_id');
+    }
+
+    public function shcedule(){
+        return $this->hasOne(Schedule::class, 'room_time_id', 'room_time_id');
     }
 }
 

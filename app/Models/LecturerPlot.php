@@ -33,7 +33,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class LecturerPlot extends Model{
     use HasFactory;
-    use HasFactory;
     protected $table = 'lecturer_plots';
     protected $primaryKey = 'lecturer_plot_id';
     public $timestamps = true;
@@ -50,5 +49,9 @@ class LecturerPlot extends Model{
 
     public function academicYear(){
         return $this->belongsTo(AcademicYear::class, 'academic_year_id', 'academic_year_id');
+    }
+
+    public function schedule(){
+        return $this->hasOne(Schedule::class, 'lecturer_plot_id', 'lecturer_plot_id');
     }
 }

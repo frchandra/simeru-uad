@@ -199,6 +199,7 @@ return [
         App\Providers\RoomServiceProvider::class,
         App\Providers\LecturerPlotServiceProdiver::class,
         App\Providers\RoomTimeServiceProvider::class,
+        App\Providers\ScheduleServiceProvider::class,
 
     ],
 
