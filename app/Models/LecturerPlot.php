@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereLecturerPlotId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereSubClassId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereUpdatedAt($value)
+ * @property-read \App\Models\Schedule|null $schedule
  */
 class LecturerPlot extends Model{
     use HasFactory;

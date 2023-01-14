@@ -14,7 +14,19 @@ class RoomTimeRepository{
         return RoomTime::create($allocation);
     }
 
-    public function getOne($roomId, $timeId, $semesterId){
+    public function getByDetails($roomId, $timeId, $semesterId){
         return RoomTime::whereTimeId($timeId)->where('room_id', '=', $roomId)->where('academic_year_id', '=', $semesterId)->get();
     }
+
+
+    /**
+     *
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|RoomTime|object
+     */
+    public function getByIdSemester($id, $semesterId){
+        return RoomTime::whereRoomTimeId($id)->where('academic_year_id', '=', $semesterId)->get();
+    }
+
+
 }

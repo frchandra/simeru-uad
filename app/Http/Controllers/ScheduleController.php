@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\ScheduleServices;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ScheduleController extends Controller{
     private ScheduleServices $scheduleServices;
@@ -25,20 +26,42 @@ class ScheduleController extends Controller{
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request){
         $allocations = $request->get('data');
-
+        \DB::beginTransaction();
         foreach ($allocations as $allocation) {
+/*            return response()->json([
+                "data" => var_export($allocation, true)
+            ], 200);*/
 
+            try {
+                $this->scheduleServices->checkQuotaConflict($allocation);
+                $this->scheduleServices->checkLectuererConflict($allocation);
+                $this->scheduleServices->checkRoomConflict($allocation);
+                $this->scheduleServices->setIsHeldTrue($allocation);
+                $this->scheduleServices->setOccupiedTrue($allocation);
+                $this->scheduleServices->insert($allocation);
+            } catch (ValidationException $e){
+                \DB::rollBack();
+                return response()->json([
+                    "status" => "fail",
+                    "messages" => $e->errors()['messages'],
+                ], 400);
+            }
         }
+        \DB::commit();
+        return response()->json([
+            "status" => "success",
+        ], 201);
 
         //untuk setiap request
             //start tx
             //cek apakah dosen telah mengajar di sesi yang sama
             //cek apakah kapasitas ruang waktu mencukupi
             //cek duplikasi mk ruang
+            //rubah okupasi roomtime dan lecturerclass
             //end tx
     }
 

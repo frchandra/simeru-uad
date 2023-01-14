@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereQuota($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereRoomId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RoomTime[] $roomTimes
+ * @property-read int|null $room_times_count
  */
 class Room extends Model{
     use HasFactory;

@@ -28,6 +28,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $lecturer_credits_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LecturerPlot[] $lecturerPlots
  * @property-read int|null $lecturer_plots_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RoomTime[] $roomTimes
+ * @property-read int|null $room_times_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Schedule[] $schedules
+ * @property-read int|null $schedules_count
  */
 class AcademicYear extends Model{
     use HasFactory;

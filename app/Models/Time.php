@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Time whereSession($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Time whereTimeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Time whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RoomTime[] $roomTimes
+ * @property-read int|null $room_times_count
  */
 class Time extends Model{
     use HasFactory;

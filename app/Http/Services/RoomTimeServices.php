@@ -17,7 +17,7 @@ class RoomTimeServices{
     }
 
     public function create($allocation){
-        $oldData = $this->roomTimeRepository->getOne($allocation['room_id'], $allocation['time_id'], $allocation['academic_year_id']);
+        $oldData = $this->roomTimeRepository->getByDetails($allocation['room_id'], $allocation['time_id'], $allocation['academic_year_id']);
         if($oldData->count()>0) {
             throw ValidationException::withMessages(['messages' => 'this messages has been created']);
         }

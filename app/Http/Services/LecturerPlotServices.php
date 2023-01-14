@@ -70,14 +70,13 @@ class LecturerPlotServices{
             return true;
         }
         //If the allocation (plot) has been created return error
-        if($subClass != null){
+        else{
             throw ValidationException::withMessages([
                 'messages' => [
                     ['description' => 'this class is has been allocated for lecturer with ID=' . $subClass->lecturer_id .' for this semester'],
                     ['lecturer_id' => $subClass->lecturer_id]]
             ]);
         }
-        return true;
     }
 
     public function allocateLecturer($allocation){

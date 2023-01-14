@@ -82,4 +82,14 @@ class LecturerPlotRepository{
         DB::table('lecturer_credits')->increment('credit', $credit);
         DB::table('lecturer_credits')->increment('sub_class_count', $classCount);
     }
+
+
+    /**
+     *
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerPlot|object
+     */
+    public function getByIdSemester($id, $semesterId){
+        return LecturerPlot::whereLecturerPlotId($id)->where('academic_year_id', '=', $semesterId)->get();
+    }
 }

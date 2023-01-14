@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Repository\LecturerPlotRepository;
+use App\Http\Repository\RoomTimeRepository;
 use App\Http\Repository\ScheduleRepository;
 use App\Http\Services\ScheduleServices;
 use Illuminate\Support\ServiceProvider;
@@ -19,7 +21,7 @@ class ScheduleServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(ScheduleServices::class, function($app){
-            return new ScheduleServices($app->make(ScheduleRepository::class));
+            return new ScheduleServices($app->make(ScheduleRepository::class),$app->make(RoomTimeRepository::class), $app->make(LecturerPlotRepository::class));
         });
     }
 
@@ -28,8 +30,7 @@ class ScheduleServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot(){
         //
     }
 }
