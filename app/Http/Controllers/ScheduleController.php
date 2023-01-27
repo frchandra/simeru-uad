@@ -29,13 +29,19 @@ class ScheduleController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request){
+        /**
+         * untuk setiap request
+         *  start tx
+         *  cek apakah dosen telah mengajar di sesi yang sama
+         *  cek apakah kapasitas ruang waktu mencukupi
+         *  cek duplikasi mk ruang
+         *  rubah okupasi roomtime dan lecturerclass
+         *  end tx
+         */
+
         $allocations = $request->get('data');
         \DB::beginTransaction();
         foreach ($allocations as $allocation) {
-/*            return response()->json([
-                "data" => var_export($allocation, true)
-            ], 200);*/
-
             try {
                 $this->scheduleServices->checkQuotaConflict($allocation);
                 $this->scheduleServices->checkLectuererConflict($allocation);
@@ -56,13 +62,7 @@ class ScheduleController extends Controller{
             "status" => "success",
         ], 201);
 
-        //untuk setiap request
-            //start tx
-            //cek apakah dosen telah mengajar di sesi yang sama
-            //cek apakah kapasitas ruang waktu mencukupi
-            //cek duplikasi mk ruang
-            //rubah okupasi roomtime dan lecturerclass
-            //end tx
+
     }
 
     /**

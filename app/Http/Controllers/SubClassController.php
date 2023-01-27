@@ -35,7 +35,7 @@ class SubClassController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SubClassStoreRequest $request){
-        $newSubClass = $request->only(['name', 'course_name',  'quota', 'credit', 'semester']);
+        $newSubClass = $request->only(['name', 'course_id',  'quota', 'credit', 'semester']);
         $result = $this->subClassServices->createNew($newSubClass);
         if($result){
             return response()->json([

@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('lecturer_id');
             $table->unsignedBigInteger('sub_class_id');
+            $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('room_id');
             $table->unsignedBigInteger('time_id');
 
