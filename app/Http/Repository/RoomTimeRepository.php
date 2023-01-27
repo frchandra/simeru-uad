@@ -15,7 +15,7 @@ class RoomTimeRepository{
     }
 
     public function getByDetails($roomId, $timeId, $semesterId){
-        return RoomTime::whereTimeId($timeId)->where('room_id', '=', $roomId)->where('academic_year_id', '=', $semesterId)->get();
+        return RoomTime::whereTimeId($timeId)->where('room_id', '=', $roomId)->where('academic_year_id', '=', $semesterId);
     }
 
 
@@ -25,7 +25,7 @@ class RoomTimeRepository{
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|RoomTime|object
      */
     public function getByIdSemester($id, $semesterId){
-        return RoomTime::whereRoomTimeId($id)->where('academic_year_id', '=', $semesterId)->get();
+        return RoomTime::whereRoomTimeId($id)->where('academic_year_id', '=', $semesterId);
     }
 
 

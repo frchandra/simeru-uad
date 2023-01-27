@@ -35,13 +35,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereSubClassId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereTimeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereUpdatedAt($value)
+ * @property int $course_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereCourseId($value)
+ * @property int $sub_class_semester
+ * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereSubClassSemester($value)
  */
 class Schedule extends Model{
     use HasFactory;
     protected $table = 'schedules';
     protected $primaryKey = 'schedule_id';
     public $timestamps = true;
-    protected $fillable = ['academic_year_id', 'lecturer_plot_id', 'room_time_id', 'lecturer_id', 'sub_class_id', 'course_id', 'room_id', 'time_id'];
+    protected $fillable = ['academic_year_id', 'lecturer_plot_id', 'room_time_id', 'lecturer_id', 'sub_class_id', 'sub_class_semester', 'room_id', 'time_id'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function academicYear(){

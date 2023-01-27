@@ -48,6 +48,7 @@ class ScheduleController extends Controller{
                 $this->scheduleServices->checkRoomConflict($allocation);
                 $this->scheduleServices->setIsHeldTrue($allocation);
                 $this->scheduleServices->setOccupiedTrue($allocation);
+                $this->scheduleServices->checkSameCourseSemester($allocation);
                 $this->scheduleServices->insert($allocation);
             } catch (ValidationException $e){
                 \DB::rollBack();

@@ -17,7 +17,7 @@ class RoomTimeSeeder extends Seeder{
                 RoomTime::create([
                     'room_id' => $i,
                     'time_id' => $j,
-                    'academic_year_id' => 2,
+                    'academic_year_id' => 1,
                     'is_occupied' => false,
                 ]);
             }

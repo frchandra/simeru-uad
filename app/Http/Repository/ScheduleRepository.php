@@ -13,6 +13,10 @@ class ScheduleRepository{
         return Schedule::whereRoomId($roomId)->where('time_id', '=', $timeId)->where('academic_year_id', '=', $semesterId);
     }
 
+    public function getBySemesterTime($semester, $timeId){
+        return Schedule::whereSubClassSemester($semester)->where('time_id', '=', $timeId);
+    }
+
 
 
 }

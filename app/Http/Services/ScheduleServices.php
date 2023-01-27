@@ -13,6 +13,7 @@ use App\Models\Schedule;
 use App\Models\SubClass;
 use App\Models\Time;
 use Illuminate\Validation\ValidationException;
+use function Symfony\Component\String\s;
 
 class ScheduleServices{
     private ScheduleRepository $scheduleRepository;
@@ -31,9 +32,9 @@ class ScheduleServices{
         //ambil data RoomTime berdasarkan lecturerId yang diberikan
         //cek apakah bila data diinputkan maka akan terdapat room yg berbeda diwaktu yang sama => cek apakah terdapat entry dengan lecturid dan timeid yang sama => apakah ada olddata dengan timeid==timeid
         //error: dosen dosenId telah mengajar di room_idx dan room_idy di waktu time_id
-        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id']);
-        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id']);
-        $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->first()->lecturer_id, $roomTime->first()->time_id, $allocation['academic_year_id']);
+        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id'])->first();
+        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first();
+        $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->lecturer_id, $roomTime->time_id, $allocation['academic_year_id']);
 
         //if entry tidak ditemukan (dosen belum teralokasi pada waktu yang diberikan)
         if($oldData->get()->count()<1){
@@ -47,7 +48,7 @@ class ScheduleServices{
 
             //TODO: return the cause of conflict, not the purposed data
             throw ValidationException::withMessages(['messages' => [
-               ['description' => 'This operation creates conflict with this class'],
+               ['description' => 'This operation creates conflict with this classs'],
                ['lecturer_name' => $lecturer->name],
                ['sub_class_name' => $subClass->name],
                ['room_name' => $room->name],
@@ -96,8 +97,8 @@ class ScheduleServices{
         //ambil data kuota kelas dari classid
         //ambil data kuota kelas dari roomid
         //bandingkan
-        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id']);
-        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id']);
+        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id'])->first();
+        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first();
         //TODO: handle if lecturerPLot & roomTime == null
         //TODO return lecturer_plot_id when creating lecturer_plot entry
 
@@ -126,8 +127,20 @@ class ScheduleServices{
 
     public function checkSameCourseSemester($allocation){
         //dalam satu sesi tidak boleh terselenggara lebih dari 2 sub class yang bersemester sama
-        //ambil data course dari subclassId yang diberikan
-        //
+        //ambil data courseid dari lecturer_plot_id yang diberikan.
+        //ambil data time_id dari room_time_id
+        //cek apakah bila data diinputkan maka akan constrain akan terlanggar. select where session==session and courseid==courseid => if result >2 => error
+        $subClassSemester = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id'])->first()->subClass->semester;
+        $timeId = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first()->time->time_id;
+        $oldData = $this->scheduleRepository->getBySemesterTime($subClassSemester, $timeId);
+
+        if($oldData->get()->count()<2){
+            return true;
+        } else {
+//            $oldData = $oldData->join('sub_classes', 'sub_class_id','sub_classes.sub_class_id')
+            throw ValidationException::withMessages(["messages" => "('sub_classes', 'sub_class_id','sub_classes.sub_class_id')->get()->toArray()"]);
+        }
+
     }
 
     public function insert($allocation){
@@ -136,6 +149,7 @@ class ScheduleServices{
 
         $allocation['lecturer_id'] = $lecturePlot->first()->lecturer_id;
         $allocation['sub_class_id'] = $lecturePlot->first()->sub_class_id;
+        $allocation['sub_class_semester'] = $lecturePlot->first()->subClass->semester;
         $allocation['room_id'] = $roomTime->first()->room_id;
         $allocation['time_id'] = $roomTime->first()->time_id;
 

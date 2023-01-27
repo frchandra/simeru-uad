@@ -88,7 +88,7 @@ class LecturerPlotServices{
         if($lecturerCredit->count()<1){
             $this->lecturerPlotRepository->createLecturerCredit($allocation['lecturer_id'], 1, $allocation['academic_year_id'], $classCredit);
         } else {
-            $this->lecturerPlotRepository->incrementLecturerCredit($classCredit, 1);
+            $this->lecturerPlotRepository->incrementLecturerCredit($allocation['lecturer_id'], $classCredit, 1);
         }
         return $data;
     }
