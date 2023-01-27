@@ -41,4 +41,8 @@ class LecturerCredit extends Model{
     public function academicYears(){
         return $this->belongsTo(AcademicYear::class, 'academic_year_id', 'academic_year_id');
     }
+
+    public function lecturer(){
+        return $this->belongsTo(Lecturer::class, 'lecturer_id', 'lecturer_id');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpKernel\Fragment\FragmentUriGenerator;
 
 /**
  * App\Models\Lecturer
@@ -39,6 +40,10 @@ class Lecturer extends Model{
 
     public function lecturerPlots(){
         return $this->hasMany(LecturerPlot::class, 'lecturer_id', 'lecturer_id');
+    }
+
+    public function lecturerCredit(){
+        return $this->hasMany(LecturerCredit::class, 'lecturer_id', 'lecturer_id');
     }
 
 
