@@ -137,8 +137,11 @@ class ScheduleServices{
         if($oldData->get()->count()<2){
             return true;
         } else {
-//            $oldData = $oldData->join('sub_classes', 'sub_class_id','sub_classes.sub_class_id')
-            throw ValidationException::withMessages(["messages" => "('sub_classes', 'sub_class_id','sub_classes.sub_class_id')->get()->toArray()"]);
+            $oldData = $oldData->join('sub_classes', 'schedules.sub_class_id','=', 'sub_classes.sub_class_id');
+            throw ValidationException::withMessages(['messages' =>
+                ['data' => $oldData->get()->toArray()],
+
+            ]);
         }
 
     }

@@ -17,7 +17,6 @@ class SubClassFactory extends Factory
     public function definition(){
         return [
             'name' => fake()->sentence(3),
-            'course_id' => fake()->numberBetween(1,3),
             'quota' => fake()->numberBetween(60, 70),
             'credit' => 2,//fake()->numberBetween(1,3),
             'semester' => fake()->numberBetween(1,8)

@@ -38,14 +38,10 @@ class SubClass extends Model{
     protected $table = 'sub_classes';
     protected $primaryKey = 'sub_class_id';
     public $timestamps = true;
-    protected $fillable = ['name', 'course_name', 'quota', 'credit', 'semester'];
+    protected $fillable = ['name', 'quota', 'credit', 'semester'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function lecturerPlot(){
         return $this->hasOne(LecturerPlot::class, 'sub_class_id', 'sub_class_id');
-    }
-
-    public function course(){
-        return $this->belongsTo(Course::class, 'course_id', 'course_id');
     }
 }
