@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereSubClassCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|LecturerCredit whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Lecturer $lecturer
  */
 class LecturerCredit extends Model{
     use HasFactory;

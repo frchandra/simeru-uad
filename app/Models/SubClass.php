@@ -29,16 +29,23 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|SubClass whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Models\LecturerPlot|null $lecturerPlot
+ * @property int $course_id
+ * @property-read \App\Models\Course $course
+ * @method static \Illuminate\Database\Eloquent\Builder|SubClass whereCourseId($value)
  */
 class SubClass extends Model{
     use HasFactory;
     protected $table = 'sub_classes';
     protected $primaryKey = 'sub_class_id';
     public $timestamps = true;
-    protected $fillable = ['name', 'quota', 'credit', 'semester'];
+    protected $fillable = ['name', 'course_name', 'quota', 'credit', 'semester'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function lecturerPlot(){
         return $this->hasOne(LecturerPlot::class, 'sub_class_id', 'sub_class_id');
+    }
+
+    public function course(){
+        return $this->belongsTo(Course::class, 'course_id', 'course_id');
     }
 }

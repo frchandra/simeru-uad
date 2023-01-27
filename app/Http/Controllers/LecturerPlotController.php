@@ -41,6 +41,10 @@ class LecturerPlotController extends Controller{
         ],200);
     }
 
+
+    /**
+     * Allocate a lecturer to a specific sub_class
+     */
     public function allocateLecturer(Request $request){
         $allocations = $request->get('data');
 

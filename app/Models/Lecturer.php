@@ -29,6 +29,8 @@ use Symfony\Component\HttpKernel\Fragment\FragmentUriGenerator;
  * @method static \Illuminate\Database\Eloquent\Builder|Lecturer wherePhoneNumber($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LecturerPlot[] $lecturerPlots
  * @property-read int|null $lecturer_plots_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LecturerCredit[] $lecturerCredit
+ * @property-read int|null $lecturer_credit_count
  */
 class Lecturer extends Model{
     use HasFactory;

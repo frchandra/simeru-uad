@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('sub_classes', function (Blueprint $table) {
             $table->id('sub_class_id');
+            $table->unsignedBigInteger('course_id');
             $table->string('name');
             $table->unsignedSmallInteger('quota');
             $table->unsignedSmallInteger('credit');
             $table->unsignedSmallInteger('semester');
             $table->timestamps();
+
+            $table->foreign("course_id")->references("course_id")->on("courses");
         });
     }
 
