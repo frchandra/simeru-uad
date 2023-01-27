@@ -50,7 +50,7 @@ class LecturerPlotServices{
                     ['description' => 'this lecturer is already take ' . $lecturerCredit . ' credit. Cant take another '. $classCredit .' credit'],
                     ['lecturer_id' => $lecturer->lecturer_id]
                 ]
-            ]); //TODO: make the credit value dynamic
+            ]);
         }
         return true;
     }
@@ -80,9 +80,10 @@ class LecturerPlotServices{
     }
 
     public function allocateLecturer($allocation){
+        //add is held field to the data
         $allocation['is_held'] = false;
         $data = $this->lecturerPlotRepository->allocateLecturer($allocation);
-        //Update lecturer credit data
+        //Update or insert lecturer credit data
         $classCredit = $this->subClassRepository->show($allocation['sub_class_id'])->first()->toArray()['credit'];
         $lecturerCredit = $this->lecturerPlotRepository->isLecturerCreditExist($allocation['lecturer_id'], $allocation['academic_year_id']);
         if($lecturerCredit->count()<1){

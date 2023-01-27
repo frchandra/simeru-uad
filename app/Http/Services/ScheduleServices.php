@@ -32,21 +32,20 @@ class ScheduleServices{
         //ambil data RoomTime berdasarkan lecturerId yang diberikan
         //cek apakah bila data diinputkan maka akan terdapat room yg berbeda diwaktu yang sama => cek apakah terdapat entry dengan lecturid dan timeid yang sama => apakah ada olddata dengan timeid==timeid
         //error: dosen dosenId telah mengajar di room_idx dan room_idy di waktu time_id
-        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id'])->first();
-        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first();
+        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id']);
+        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id']);
         $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->lecturer_id, $roomTime->time_id, $allocation['academic_year_id']);
 
         //if entry tidak ditemukan (dosen belum teralokasi pada waktu yang diberikan)
         if($oldData->get()->count()<1){
             return true;
         } else {
-            //TODO: Refactoring
             $lecturer = Lecturer::whereLecturerId($oldData->first()->lecturer_id)->first();
             $subClass = SubClass::whereSubClassId($oldData->first()->sub_class_id)->first();
             $room = Room::whereRoomId($oldData->first()->room_id)->first();
             $time = Time::whereTimeId($oldData->first()->time_id)->first();
 
-            //TODO: return the cause of conflict, not the purposed data
+
             throw ValidationException::withMessages(['messages' => [
                ['description' => 'This operation creates conflict with this classs'],
                ['lecturer_name' => $lecturer->name],
@@ -67,18 +66,16 @@ class ScheduleServices{
         //error: ruang x di waktu y telah diisi dosen/class
         $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id']);
         $oldData = $this->scheduleRepository->getByRoomTimeSemester($roomTime->first()->room_id, $roomTime->first()->time_id, $allocation['academic_year_id']);
-
+        //if sudah terdapat room
         if($oldData->get()->count()<1){
             return true;
         } else{
-            //TODO: Refactoring
-            $lecturer = Lecturer::whereLecturerId($oldData->first()->lecturer_id)->first();
+           $lecturer = Lecturer::whereLecturerId($oldData->first()->lecturer_id)->first();
             $subClass = SubClass::whereSubClassId($oldData->first()->sub_class_id)->first();
             $room = Room::whereRoomId($oldData->first()->room_id)->first();
             $time = Time::whereTimeId($oldData->first()->time_id)->first();
 
-            //TODO: return the cause of conflict, not the purposed data
-            throw ValidationException::withMessages(['messages' => [
+           throw ValidationException::withMessages(['messages' => [
                 ['description' => 'This operation creates conflict with this class'],
                 ['lecturer_name' => $lecturer->name],
                 ['sub_class_name' => $subClass->name],
@@ -100,9 +97,7 @@ class ScheduleServices{
         $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id'])->first();
         $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first();
         //TODO: handle if lecturerPLot & roomTime == null
-        //TODO return lecturer_plot_id when creating lecturer_plot entry
 
-        //TODO:Refactoring
         $classQuota = SubClass::whereSubClassId($lecturePlot->first()->sub_class_id)->first()->quota;
         $roomQuota = Room::whereRoomId($roomTime->first()->room_id)->first()->quota;
 
@@ -139,8 +134,8 @@ class ScheduleServices{
         } else {
             $oldData = $oldData->join('sub_classes', 'schedules.sub_class_id','=', 'sub_classes.sub_class_id');
             throw ValidationException::withMessages(['messages' =>
+                ['description' => 'the third requirement is unsatisfied'],
                 ['data' => $oldData->get()->toArray()],
-
             ]);
         }
 

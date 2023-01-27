@@ -90,6 +90,6 @@ class LecturerPlotRepository{
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerPlot|object
      */
     public function getByIdSemester($id, $semesterId){
-        return LecturerPlot::whereLecturerPlotId($id)->where('academic_year_id', '=', $semesterId);
+        return LecturerPlot::whereLecturerPlotId($id)->where('academic_year_id', '=', $semesterId)->first();
     }
 }
