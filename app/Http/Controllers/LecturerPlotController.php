@@ -43,9 +43,14 @@ class LecturerPlotController extends Controller{
 
 
     /**
+     * Store a newly created resource in storage.
      * Allocate a lecturer to a specific sub_class
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
      */
-    public function allocateLecturer(Request $request){
+    public function store(Request $request){
         $allocations = $request->get('data');
 
         \DB::beginTransaction();
@@ -67,17 +72,6 @@ class LecturerPlotController extends Controller{
         return response()->json([
             "status" => "success",
         ], 201);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
