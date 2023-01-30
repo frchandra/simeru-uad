@@ -29,6 +29,11 @@ class LecturerController extends Controller{
         ], 200);
     }
 
+    public function GetLecturerCredit()
+    {
+        
+    }
+
     /**
      * Store a newly created resource in storage.
      *

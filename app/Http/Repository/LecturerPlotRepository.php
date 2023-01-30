@@ -17,7 +17,7 @@ class LecturerPlotRepository{
      */
     public function getJoinedByAcadYearId($acadYearId){
         $LecturePlots = DB::table('lecturer_plots')
-            ->join('lecturers', 'lecturer_plots.lecturer_plot_id', '=', 'lecturer_plots.lecturer_plot_id')
+            ->join('lecturers', 'lecturer_plots.lecturer_id', '=', 'lecturers.lecturer_id')
             ->join('sub_classes', 'lecturer_plots.sub_class_id', '=', 'sub_classes.sub_class_id')
             ->select(
                 'lecturers.lecturer_id',
