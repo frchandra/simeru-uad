@@ -29,9 +29,12 @@ class LecturerController extends Controller{
         ], 200);
     }
 
-    public function GetLecturerCredit()
-    {
-        
+    public function getLecturerCredit($lecturerId){
+        $lecturer = $this->lecturerService->getTotalCredit($lecturerId);
+        return response()->json([
+            'status' => 'success',
+            'data' => $lecturer,
+        ], 200);
     }
 
     /**

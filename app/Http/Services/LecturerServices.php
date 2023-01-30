@@ -23,6 +23,10 @@ class LecturerServices{
         return $this->lecturerRepository->getAll()->toArray();
     }
 
+    public function getTotalCredit($id){
+        return $this->lecturerRepository->getTotalCredit($id)->toArray();
+    }
+
     /**
      * Create new lecturer entry
      *

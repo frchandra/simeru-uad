@@ -3,6 +3,7 @@
 namespace App\Http\Repository;
 
 use App\Models\Lecturer;
+use App\Models\LecturerCredit;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -16,6 +17,10 @@ class LecturerRepository{
      */
     public function getAll(){
         return QueryBuilder::for(Lecturer::class)->allowedFilters(['lecturer_id','name'])->get();
+    }
+
+    public function getTotalCredit($id){
+        return LecturerCredit::whereLecturerId($id)->get();
     }
 
 
