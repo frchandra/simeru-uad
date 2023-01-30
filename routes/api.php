@@ -34,6 +34,7 @@ Route::apiResource('v1/room', RoomController::class);
 Route::get('v1/lecturer_plot/{acadYearId}', [LecturerPlotController::class, 'getJoinedByAcadYearId']);
 Route::apiResource('v1/lecturer_plot', LecturerPlotController::class);
 
+Route::get('v1/room_time_helper', [RoomTimeController::class, 'getHelper']);
 Route::apiResource('v1/room_time', RoomTimeController::class);
 
 Route::apiResource('/v1/schedule', ScheduleController::class);

@@ -29,6 +29,14 @@ class RoomTimeController extends Controller{
 
     }
 
+    public function getHelper(){
+        $roomTimesHelper = $this->roomTimeServices->getAllHelper();
+        return response()->json([
+            "status" => "success",
+            "data" => $roomTimesHelper,
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -4,14 +4,22 @@ namespace App\Http\Repository;
 
 use App\Models\Room;
 use App\Models\RoomTime;
+use App\Models\RoomTimeHelper;
 
 class RoomTimeRepository{
     public function getAll(){
         return RoomTime::get();
     }
 
+    public function getAllHelper(){
+        return RoomTimeHelper::get();
+    }
     public function create($allocation){
         return RoomTime::create($allocation);
+    }
+
+    public function createHelper($allocation){
+        return RoomTimeHelper::whereRoomId($allocation['room_id'])->where('time_id', '=', $allocation['time_id'])->update(['is_possible' => true]);
     }
 
     public function getByDetails($roomId, $timeId, $semesterId){
