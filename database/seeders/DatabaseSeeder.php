@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\LecturerPlot;
+use App\Models\RoomTimeHelper;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             TimeSeeder::class,
             AcademicYearSeeder::class,
 //            LecturerPlotSeeder::class,
+            RoomTimeHelperSeeder::class,
             RoomTimeSeeder::class,
         ]);
     }
