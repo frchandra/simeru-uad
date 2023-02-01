@@ -17,3 +17,6 @@ yarn-error.log
 /.idea
 /.vscode
 /.docker/dbdata
+/cgi-bin
+/.well-known
+./.htaccess
