@@ -90,11 +90,30 @@ class LecturerPlotController extends Controller{
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id){
+        $allocations = $request->get('data');
+
+        \DB::beginTransaction();
+        foreach ($allocations as $allocation){
+            try {
+                $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
+                $lecturerId = $this->lecturerPlotServices->checkPlotAvailabilityForUpdate($allocation['sub_class_id'], $allocation['academic_year_id']);
+                $this->lecturerPlotServices->allocateLecturerForUpdate($allocation, $lecturerId, $id);
+            } catch (ValidationException $e){
+                \DB::rollBack();
+                return response()->json([
+                    "status" => "fail",
+                    "messages" => $e->errors()['messages'],
+                ], 400);
+            }
+        }
+        \DB::commit();
+
+        return response()->json([
+            "status" => "success",
+        ], 201);
     }
 
     /**

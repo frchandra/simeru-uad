@@ -69,8 +69,9 @@ class LecturerPlotServices{
         if($subClass == null){
             return true;
         }
-        //If the allocation (plot) has been created return error
+
         else{
+            //If the allocation (plot) has been created return error
             throw ValidationException::withMessages([
                 'messages' => [
                     ['description' => 'this class is has been allocated for lecturer with ID=' . $subClass->lecturer_id .' for this semester'],
@@ -82,9 +83,41 @@ class LecturerPlotServices{
     public function allocateLecturer($allocation){
         //add is held field to the data
         $allocation['is_held'] = false;
-        $data = $this->lecturerPlotRepository->allocateLecturer($allocation);
+        $data = $this->lecturerPlotRepository->createLecturerAllocation($allocation);
         //Update or insert lecturer credit data
         $classCredit = $this->subClassRepository->show($allocation['sub_class_id'])->first()->toArray()['credit'];
+        $lecturerCredit = $this->lecturerPlotRepository->isLecturerCreditExist($allocation['lecturer_id'], $allocation['academic_year_id']);
+        if($lecturerCredit->count()<1){
+            $this->lecturerPlotRepository->createLecturerCredit($allocation['lecturer_id'], 1, $allocation['academic_year_id'], $classCredit);
+        } else {
+            $this->lecturerPlotRepository->incrementLecturerCredit($allocation['lecturer_id'], $classCredit, 1);
+        }
+        return $data;
+    }
+
+    public function checkPlotAvailabilityForUpdate($subClassId, $semesterId){
+        $subClass = $this->lecturerPlotRepository->getBySubClassSemester($subClassId, $semesterId);
+        //If there are no allocation (plot) then return 0 because currently there are no allocated lecture_id for this plot
+        if($subClass == null){
+            return 0;
+        }
+        //If the allocation (plot) has been created return the current allocated lecture_id for this plot
+        else{
+            return $subClass->lecturer_id;
+        }
+    }
+
+    public function allocateLecturerForUpdate($allocation, $prevLecturerId, $prevLecturerPlotId){
+        //add is held field to the data
+        $allocation['is_held'] = false;
+        $data = $this->lecturerPlotRepository->updateLecturerAllocation($allocation, $prevLecturerPlotId);
+        $classCredit = $this->subClassRepository->show($allocation['sub_class_id'])->first()->toArray()['credit'];
+        //Update (remove allocation) lecturer credit data for previous lecturer
+        if($prevLecturerId != 0){
+            //update previous lecturer data
+            $this->lecturerPlotRepository->decrementLecturerCredit($prevLecturerId, $classCredit, 1);
+        }
+        //Update or insert lecturer credit data for new lecturer
         $lecturerCredit = $this->lecturerPlotRepository->isLecturerCreditExist($allocation['lecturer_id'], $allocation['academic_year_id']);
         if($lecturerCredit->count()<1){
             $this->lecturerPlotRepository->createLecturerCredit($allocation['lecturer_id'], 1, $allocation['academic_year_id'], $classCredit);

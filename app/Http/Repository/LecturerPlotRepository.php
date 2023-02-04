@@ -20,6 +20,7 @@ class LecturerPlotRepository{
             ->join('lecturers', 'lecturer_plots.lecturer_id', '=', 'lecturers.lecturer_id')
             ->join('sub_classes', 'lecturer_plots.sub_class_id', '=', 'sub_classes.sub_class_id')
             ->select(
+                'lecturer_plots.lecturer_plot_id',
                 'lecturers.lecturer_id',
                 'sub_classes.sub_class_id',
                 'lecturers.name as lecturer_name',
@@ -57,9 +58,21 @@ class LecturerPlotRepository{
         return LecturerPlot::whereAcademicYearId($semesterId)->where('sub_class_id', '=', $subClassId)->first();
     }
 
+    /**
+     *
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerPlot|object
+     */
+    public function getByIdSemester($id, $semesterId){
+        return LecturerPlot::whereLecturerPlotId($id)->where('academic_year_id', '=', $semesterId)->first();
+    }
 
-    public function allocateLecturer($allocation){
+    public function createLecturerAllocation($allocation){
         return LecturerPlot::create($allocation);
+    }
+
+    public function updateLecturerAllocation($allocation, $lecturerPlotId){
+        return LecturerPlot::whereLecturerPlotId($lecturerPlotId)->update($allocation);
     }
 
     public function isLecturerCreditExist($lectureId, $semesterId){
@@ -83,13 +96,11 @@ class LecturerPlotRepository{
         DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['sub_class_count' => DB::raw('sub_class_count + '.strval($classCount))]);
     }
 
-
-    /**
-     *
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerPlot|object
-     */
-    public function getByIdSemester($id, $semesterId){
-        return LecturerPlot::whereLecturerPlotId($id)->where('academic_year_id', '=', $semesterId)->first();
+    public function decrementLecturerCredit($lecturerId, $credit, $classCount){
+        DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['credit' => DB::raw('credit - '.strval($credit))]);
+        DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['sub_class_count' => DB::raw('sub_class_count - '.strval($classCount))]);
     }
+
+
+
 }
