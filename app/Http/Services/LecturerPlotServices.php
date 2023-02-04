@@ -26,6 +26,10 @@ class LecturerPlotServices{
         return $this->lecturerPlotRepository->getJoinedByAcadYearId($acadYearId)->toArray();
     }
 
+    public function getByAcadYearSubClass($acadYearId, $subClass){
+        return $this->lecturerPlotRepository->getByAcadYearSubClass($acadYearId, $subClass);
+    }
+
 
     /**
      * Check if the lecturer allocation is eligible
@@ -80,6 +84,18 @@ class LecturerPlotServices{
         }
     }
 
+    public function checkPlotAvailabilityForUpdate($subClassId, $semesterId){
+        $subClass = $this->lecturerPlotRepository->getBySubClassSemester($subClassId, $semesterId);
+        //If there are no allocation (plot) then return 0 because currently there are no allocated lecture_id for this plot
+        if($subClass == null){
+            return 0;
+        }
+        //If the allocation (plot) has been created return the current allocated lecture_id for this plot
+        else{
+            return $subClass->lecturer_id;
+        }
+    }
+
     public function allocateLecturer($allocation){
         //add is held field to the data
         $allocation['is_held'] = false;
@@ -95,17 +111,7 @@ class LecturerPlotServices{
         return $data;
     }
 
-    public function checkPlotAvailabilityForUpdate($subClassId, $semesterId){
-        $subClass = $this->lecturerPlotRepository->getBySubClassSemester($subClassId, $semesterId);
-        //If there are no allocation (plot) then return 0 because currently there are no allocated lecture_id for this plot
-        if($subClass == null){
-            return 0;
-        }
-        //If the allocation (plot) has been created return the current allocated lecture_id for this plot
-        else{
-            return $subClass->lecturer_id;
-        }
-    }
+
 
     public function allocateLecturerForUpdate($allocation, $prevLecturerId, $prevLecturerPlotId){
         //add is held field to the data

@@ -67,19 +67,12 @@ class LecturerPlotRepository{
         return LecturerPlot::whereLecturerPlotId($id)->where('academic_year_id', '=', $semesterId)->first();
     }
 
+    public function getByAcadYearSubClass($acadYearId, $subClass){
+        return LecturerPlot::whereAcademicYearId($acadYearId)->where('sub_class_id', '=', $subClass)->first();
+    }
+
     public function createLecturerAllocation($allocation){
         return LecturerPlot::create($allocation);
-    }
-
-    public function updateLecturerAllocation($allocation, $lecturerPlotId){
-        return LecturerPlot::whereLecturerPlotId($lecturerPlotId)->update($allocation);
-    }
-
-    public function isLecturerCreditExist($lectureId, $semesterId){
-        return LecturerCredit::where([
-                'lecturer_id' => $lectureId,
-                'academic_year_id' => $semesterId,
-            ])->get();
     }
 
     public function createLecturerCredit($lectureId, $classCount, $semesterId, $credit){
@@ -91,6 +84,14 @@ class LecturerPlotRepository{
         ]);
     }
 
+    public function updateLecturerAllocation($allocation, $lecturerPlotId){
+        return LecturerPlot::whereLecturerPlotId($lecturerPlotId)->update($allocation);
+    }
+
+
+
+
+
     public function incrementLecturerCredit($lecturerId, $credit, $classCount){
         DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['credit' => DB::raw('credit + '.strval($credit))]);
         DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['sub_class_count' => DB::raw('sub_class_count + '.strval($classCount))]);
@@ -99,6 +100,13 @@ class LecturerPlotRepository{
     public function decrementLecturerCredit($lecturerId, $credit, $classCount){
         DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['credit' => DB::raw('credit - '.strval($credit))]);
         DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['sub_class_count' => DB::raw('sub_class_count - '.strval($classCount))]);
+    }
+
+    public function isLecturerCreditExist($lectureId, $semesterId){
+        return LecturerCredit::where([
+            'lecturer_id' => $lectureId,
+            'academic_year_id' => $semesterId,
+        ])->get();
     }
 
 

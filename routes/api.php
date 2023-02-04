@@ -33,7 +33,12 @@ Route::apiResource('v1/subclass', SubClassController::class);
 Route::apiResource('v1/room', RoomController::class);
 
 Route::get('v1/lecturer_plot/{acadYearId}', [LecturerPlotController::class, 'getJoinedByAcadYearId']);
-Route::apiResource('v1/lecturer_plot', LecturerPlotController::class);
+Route::put('v1/lecturer_plot', [LecturerPlotController::class, 'update']);
+Route::post('v1/lecturer_plot', [LecturerPlotController::class, 'store']);
+Route::delete('v1/lecturer_plot', [LecturerPlotController::class, 'destroy']);
+
+
+
 
 Route::get('v1/room_time_helper', [RoomTimeController::class, 'getHelper']);
 Route::apiResource('v1/room_time', RoomTimeController::class);
