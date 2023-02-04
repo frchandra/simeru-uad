@@ -24,7 +24,6 @@ class SubClassUpdateRequest extends FormRequest{
     public function rules(){
         return [
             'name' => 'present|required|min:3|max:30',
-            'course_id' => 'present|required|numeric',
             'quota' => 'present|required|numeric',
             'credit' => 'present|required|numeric',
             'semester' => 'present|required|numeric'
