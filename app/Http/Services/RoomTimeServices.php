@@ -29,4 +29,9 @@ class RoomTimeServices{
         $this->roomTimeRepository->createHelper($allocation);
         return $this->roomTimeRepository->create($allocation);
     }
+
+    public function delete($allocation){
+        $this->roomTimeRepository->deleteHelper($allocation);
+        return $this->roomTimeRepository->delete($allocation);
+    }
 }

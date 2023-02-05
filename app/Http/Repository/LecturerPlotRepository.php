@@ -89,9 +89,6 @@ class LecturerPlotRepository{
     }
 
 
-
-
-
     public function incrementLecturerCredit($lecturerId, $credit, $classCount){
         DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['credit' => DB::raw('credit + '.strval($credit))]);
         DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['sub_class_count' => DB::raw('sub_class_count + '.strval($classCount))]);

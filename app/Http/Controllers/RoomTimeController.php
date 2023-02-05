@@ -61,8 +61,6 @@ class RoomTimeController extends Controller{
         return response()->json([
             "status" => "success"
         ], 201);
-
-
     }
 
     /**
@@ -81,21 +79,34 @@ class RoomTimeController extends Controller{
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id){
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(RoomTimeStoreRequest $request){
+        $allocations = $request->get('data');
+        foreach ($allocations as $allocation){
+            try {
+                $this->roomTimeServices->delete($allocation);
+            } catch (ValidationException $e){
+                return response()->json([
+                    "status" => "fail",
+                    "message" => $e->errors()['messages'],
+                ]);
+            }
+        }
+
+        return response()->json([
+            "status" => "success"
+        ], 201);
+
     }
 }
