@@ -19,6 +19,10 @@ class LecturerRepository{
         return QueryBuilder::for(Lecturer::class)->allowedFilters(['lecturer_id','name'])->get();
     }
 
+    public function getAllWithCredit($acadYearId){
+        return LecturerCredit::whereAcademicYearId($acadYearId)->get();
+    }
+
     public function getTotalCredit($id){
         return LecturerCredit::whereLecturerId($id)->get();
     }

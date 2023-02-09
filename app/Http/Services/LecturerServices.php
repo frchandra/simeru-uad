@@ -23,6 +23,10 @@ class LecturerServices{
         return $this->lecturerRepository->getAll()->toArray();
     }
 
+    public function getAllWithCredit($acadYearId){
+        return $this->lecturerRepository->getAllWithCredit($acadYearId)->toArray();
+    }
+
     public function getTotalCredit($id){
         return $this->lecturerRepository->getTotalCredit($id)->toArray();
     }

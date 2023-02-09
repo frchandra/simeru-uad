@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
+Route::get('v1/lecturers/{acadYearId}', [LecturerController::class, 'lecturersCreditByAcadYear']);
 Route::get('v1/lecturer/{lecturerId}', [LecturerController::class, 'getLecturerCredit']);
 Route::apiResource('v1/lecturer', LecturerController::class);
 

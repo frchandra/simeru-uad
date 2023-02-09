@@ -37,6 +37,16 @@ class LecturerController extends Controller{
         ], 200);
     }
 
+    public function lecturersCreditByAcadYear($acadYearId){
+        $lecturers = $this->lecturerService->getAllWithCredit($acadYearId);
+        return response()->json([
+            'status' => 'success',
+            'data' => $lecturers
+        ]);
+    }
+
+
+
     /**
      * Store a newly created resource in storage.
      *
