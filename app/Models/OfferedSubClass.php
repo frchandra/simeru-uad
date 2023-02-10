@@ -15,7 +15,8 @@ class OfferedSubClass extends Model{
     protected $hidden = ['created_at', 'updated_at'];
 
     public function subClass(){
-        return $this->belongsTo(SubClass::class, 'sub_class_id', 'sub_class_id');    }
+        return $this->belongsTo(SubClass::class, 'sub_class_id', 'sub_class_id');
+    }
 
     public function academicYear(){
         return $this->belongsTo(AcademicYear::class, 'academic_year_id', 'academic_year_id');

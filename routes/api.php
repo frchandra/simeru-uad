@@ -6,7 +6,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SubClassController;
 use App\Http\Controllers\RoomTimeController;
 use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\OfferedSubClassController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,6 +32,8 @@ Route::apiResource('v1/lecturer', LecturerController::class);
 Route::apiResource('v1/subclass', SubClassController::class);
 
 Route::apiResource('v1/room', RoomController::class);
+
+Route::post('v1/offered_classes' [OfferedSubClassController::class, ''])
 
 Route::get('v1/lecturer_plot/{acadYearId}', [LecturerPlotController::class, 'getJoinedByAcadYearId']);
 Route::put('v1/lecturer_plot', [LecturerPlotController::class, 'update']);
