@@ -53,6 +53,6 @@ class LecturerPlot extends Model{
     }
 
     public function schedule(){
-        return $this->hasOne(Schedule::class, 'lecturer_plot_id', 'lecturer_plot_id');
+        return $this->hasMany(Schedule::class, 'lecturer_plot_id', 'lecturer_plot_id');
     }
 }

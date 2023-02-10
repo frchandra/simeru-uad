@@ -53,7 +53,7 @@ class RoomTime extends Model{
     }
 
     public function shcedule(){
-        return $this->hasOne(Schedule::class, 'room_time_id', 'room_time_id');
+        return $this->hasMany(Schedule::class, 'room_time_id', 'room_time_id');
     }
 }
 

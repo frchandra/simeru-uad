@@ -41,7 +41,11 @@ class SubClass extends Model{
     protected $fillable = ['name', 'quota', 'credit', 'semester'];
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function lecturerPlot(){
-        return $this->hasOne(LecturerPlot::class, 'sub_class_id', 'sub_class_id');
+    public function lecturerPlots(){
+        return $this->hasMany(LecturerPlot::class, 'sub_class_id', 'sub_class_id');
+    }
+
+    public function offeredSubClasses(){
+        return $this->hasMany(OfferedSubClass::class, 'sub_class_id', 'sub_class_id');
     }
 }
