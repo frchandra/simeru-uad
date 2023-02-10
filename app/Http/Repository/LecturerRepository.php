@@ -20,7 +20,7 @@ class LecturerRepository{
     }
 
     public function getAllWithCredit($acadYearId){
-        return LecturerCredit::whereAcademicYearId($acadYearId)->get();
+        return LecturerCredit::whereAcademicYearId($acadYearId)->join('lecturers', 'lecturers.lecturer_id', '=', 'lecturer_credits.lecturer_id') ->get();
     }
 
     public function getTotalCredit($id){

@@ -100,9 +100,6 @@ class LecturerPlotServices{
         //add is held field to the data
         $allocation['is_held'] = false;
         $data = $this->lecturerPlotRepository->createLecturerAllocation($allocation);
-        if ($allocation['lecturer_id'] == 0){
-            return $data;
-        }
         //Update or insert lecturer credit data
         $classCredit = $this->subClassRepository->show($allocation['sub_class_id'])->first()->toArray()['credit'];
         $lecturerCredit = $this->lecturerPlotRepository->isLecturerCreditExist($allocation['lecturer_id'], $allocation['academic_year_id']);

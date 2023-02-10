@@ -56,15 +56,9 @@ class LecturerPlotController extends Controller{
         \DB::beginTransaction();
         foreach ($allocations as $allocation){
             try {
-                if ($allocation['lecturer_id'] == 0){ //if lecturer_id == 0 it means that the lecturer id will  be updated later
-                    $this->lecturerPlotServices->allocateLecturer($allocation);
-                } else {
-                    $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
-                    $this->lecturerPlotServices->checkPlotAvailability($allocation['sub_class_id'], $allocation['academic_year_id']);
-                    $this->lecturerPlotServices->allocateLecturer($allocation);
-                }
-
-
+                $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
+                $this->lecturerPlotServices->checkPlotAvailability($allocation['sub_class_id'], $allocation['academic_year_id']);
+                $this->lecturerPlotServices->allocateLecturer($allocation);
             } catch (ValidationException $e){
                 \DB::rollBack();
                 return response()->json([
@@ -106,16 +100,12 @@ class LecturerPlotController extends Controller{
                 $prevPlot = $this->lecturerPlotServices->getByAcadYearSubClass($allocation['academic_year_id'], $allocation['sub_class_id']);
                 if(empty($prevPlot)){ //If prev plot is empty then insert the data as usual
                     $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
+                    $this->lecturerPlotServices->checkPlotAvailability($allocation['sub_class_id'], $allocation['academic_year_id']);
                     $this->lecturerPlotServices->allocateLecturer($allocation);
                 } else { //if prev plot exist then update lecturer field with the new lecturer
-                    if ($allocation['lecturer_id'] == 0) { //if lecturer_id == 0 it means that the lecturer id will  be updated later
-                        $this->lecturerPlotServices->allocateLecturer($allocation);
-                    } else {
-                        $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
-                        $lecturerId = $prevPlot->lecturer_id;
-                        $this->lecturerPlotServices->allocateLecturerForUpdate($allocation, $lecturerId, $prevPlot->lecturer_plot_id);
-                    }
-
+                    $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
+                    $lecturerId = $this->lecturerPlotServices->checkPlotAvailabilityForUpdate($allocation['sub_class_id'], $allocation['academic_year_id']);
+                    $this->lecturerPlotServices->allocateLecturerForUpdate($allocation, $lecturerId, $prevPlot->lecturer_plot_id);
                 }
             } catch (ValidationException $e){
                 \DB::rollBack();
