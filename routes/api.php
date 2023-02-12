@@ -33,7 +33,9 @@ Route::apiResource('v1/subclass', SubClassController::class);
 
 Route::apiResource('v1/room', RoomController::class);
 
-Route::post('v1/offered_classes' [OfferedSubClassController::class, ''])
+Route::get('v1/offered_classes/{acadYearId}', [OfferedSubClassController::class, 'show']);
+Route::post('v1/offered_classes', [OfferedSubClassController::class, 'store']);
+Route::delete('v1/offered_classes', [OfferedSubClassController::class, 'destroy']);
 
 Route::get('v1/lecturer_plot/{acadYearId}', [LecturerPlotController::class, 'getJoinedByAcadYearId']);
 Route::put('v1/lecturer_plot', [LecturerPlotController::class, 'update']);

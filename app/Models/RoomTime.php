@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\Time $time
  * @method static \Illuminate\Database\Eloquent\Builder|RoomTime whereRoomId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomTime whereRoomTimeId($value)
+ * @property-read int|null $shcedule_count
  */
 class RoomTime extends Model{
     use HasFactory;

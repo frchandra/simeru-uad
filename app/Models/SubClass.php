@@ -32,6 +32,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $course_id
  * @property-read \App\Models\Course $course
  * @method static \Illuminate\Database\Eloquent\Builder|SubClass whereCourseId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LecturerPlot[] $lecturerPlots
+ * @property-read int|null $lecturer_plots_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferedSubClass[] $offeredSubClasses
+ * @property-read int|null $offered_sub_classes_count
  */
 class SubClass extends Model{
     use HasFactory;

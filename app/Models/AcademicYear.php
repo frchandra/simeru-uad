@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $room_times_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Schedule[] $schedules
  * @property-read int|null $schedules_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LecturerPlot[] $offeredSuubClasses
+ * @property-read int|null $offered_suub_classes_count
  */
 class AcademicYear extends Model{
     use HasFactory;

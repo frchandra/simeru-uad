@@ -27,21 +27,30 @@ class OfferedSubClassController extends Controller{
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(OfferSubClassRequest $request){
-
+        $allocations = $request->get('data');
+        foreach ($allocations as $allocation) {
+            $this->offeredSubClassService->create($allocation['sub_class_id'], $allocation['academic_year_id']);
+        }
+        return response()->json([
+            'status' => 'success'
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
-    {
-        //
+    public function show($acadYearId){
+        $offered = $this->offeredSubClassService->getByAcadYearId($acadYearId);
+        return response()->json([
+            'status' => 'success',
+            'data' => $offered
+        ]);
     }
 
     /**
@@ -60,10 +69,15 @@ class OfferedSubClassController extends Controller{
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(OfferSubClassRequest $request){
+        $allocations = $request->get('data');
+        foreach ($allocations as $allocation) {
+            $this->offeredSubClassService->delete($allocation['sub_class_id'], $allocation['academic_year_id']);
+        }
+        return response()->json([
+            'status' => 'success'
+        ], 201);
     }
 }
