@@ -15,4 +15,11 @@ class RoomRepository{
     public function getAll(){
         return QueryBuilder::for(Room::class)->allowedFilters(['room_id','name','quota'])->get();
     }
+
+    public function create($name, $quota){
+        return Room::create([
+            'name' => $name,
+            'quota' => $quota,
+        ]);
+    }
 }

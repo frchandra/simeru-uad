@@ -19,4 +19,8 @@ class RoomServices{
     public function getAll(){
         return $this->roomRepository->getAll()->toArray();
     }
+
+    public function create($name, $quota){
+        $this->roomRepository->create($name, $quota);
+    }
 }

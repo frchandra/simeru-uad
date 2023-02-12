@@ -37,8 +37,8 @@ class LecturerServices{
      * @param array $newLecturer
      * @return \App\Models\Lecturer|\Illuminate\Database\Eloquent\Model
      */
-    public function createNew($newLecturer){
-        return $this->lecturerRepository->createNew($newLecturer);
+    public function createNew($name, $email, $phoneNumber){
+        return $this->lecturerRepository->createNew($name, $email, $phoneNumber);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\SubClass;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\QueryBuilder\QueryBuilder;
+use function Symfony\Component\String\s;
 
 class SubClassRepository{
     /**
@@ -23,8 +24,13 @@ class SubClassRepository{
      * @param array $newSubClass
      * @return Model|SubClass
      */
-    public function createNew($newSubClass){
-        return SubClass::create($newSubClass);
+    public function createNew($name, $quota, $credit, $semester){
+        return SubClass::create([
+            'name' => $name,
+            'quota' => $quota,
+            'credit' => $credit,
+            'semester' => $semester
+        ]);
     }
 
     /**

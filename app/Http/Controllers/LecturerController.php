@@ -54,19 +54,13 @@ class LecturerController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(LecturerStoreRequest $request){
-        $newLecturer = $request->only(['name', 'email', 'phone_number']);
-        $result = $this->lecturerService->createNew($newLecturer);
-        if($result){
-            return response()->json([
-                'status' => 'success',
-                'data' => $newLecturer
-            ], 201);
-        } else {
-            return response()->json([
-                'status' => 'fail',
-                'error_message' => 'fail to insert new data'
-            ], 500);
+        $newLecturers = $request->get('data');
+        foreach ($newLecturers as $newLecturer) {
+            $this->lecturerService->createNew($newLecturer['name'], $newLecturer['email'], $newLecturer['phone_number']);
         }
+        return response()->json([
+            'status' => 'success',
+        ], 201);
     }
 
     /**

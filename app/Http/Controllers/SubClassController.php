@@ -35,19 +35,13 @@ class SubClassController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SubClassStoreRequest $request){
-        $newSubClass = $request->only(['name', 'course_id',  'quota', 'credit', 'semester']);
-        $result = $this->subClassServices->createNew($newSubClass);
-        if($result){
-            return response()->json([
-                'status' => 'success',
-                'data' => $newSubClass
-            ], 201);
-        } else {
-            return response()->json([
-                'status' => 'fail',
-                'error_message' => 'fail to insert new data'
-            ], 500);
+        $newSubClasses = $request->get('data');
+        foreach ($newSubClasses as $newSubClass) {
+            $this->subClassServices->createNew($newSubClass['name'], $newSubClass['quota'], $newSubClass['credit'], $newSubClass['semester']);
         }
+        return response()->json([
+            'status' => 'success'
+        ], 201);
     }
 
     /**

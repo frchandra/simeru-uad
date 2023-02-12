@@ -31,11 +31,16 @@ class RoomController extends Controller{
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        $newRooms = $request->get('data');
+        foreach ($newRooms as $newRoom){
+            $this->roomServices->create($newRoom['name'], $newRoom['quota']);
+        }
+        return response()->json([
+            'status' => 'success'
+        ], 201);
     }
 
     /**

@@ -34,8 +34,12 @@ class LecturerRepository{
      * @param array $newLecturer
      * @return \Illuminate\Database\Eloquent\Model|Lecturer
      */
-    public function createNew($newLecturer){
-        return Lecturer::create($newLecturer);
+    public function createNew($name, $email, $phoneNumber){
+        return Lecturer::create([
+            'name' => $name,
+            'email' => $email,
+            'phone_number' => $phoneNumber
+        ]);
     }
 
 

@@ -27,8 +27,8 @@ class SubClassServices{
      * @param array $newSubClass
      * @return \App\Models\SubClass|\Illuminate\Database\Eloquent\Model
      */
-    public function createNew($newSubClass){
-        return $this->subClassRepository->createNew($newSubClass);
+    public function createNew($name, $quota, $credit, $semester){
+        return $this->subClassRepository->createNew($name, $quota, $credit, $semester);
     }
 
     /**
