@@ -8,6 +8,7 @@ use App\Http\Controllers\RoomTimeController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\OfferedSubClassController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -24,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+
+Route::post('v1/login', [UserController::class, 'login']);
+Route::middleware('auth:sanctum')->post('v1/logout', [UserController::class, 'logout']);
+Route::middleware('auth:sanctum')->post('v1/user', [UserController::class, 'me']);
 
 Route::get('v1/lecturers/{acadYearId}', [LecturerController::class, 'lecturersCreditByAcadYear']);
 Route::get('v1/lecturer/{lecturerId}', [LecturerController::class, 'getLecturerCredit']);
