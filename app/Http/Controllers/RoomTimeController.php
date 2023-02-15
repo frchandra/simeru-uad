@@ -66,11 +66,10 @@ class RoomTimeController extends Controller{
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $acadYearId
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($acadYearId){
         //
     }
 

@@ -46,8 +46,8 @@ class ScheduleController extends Controller{
                 $this->scheduleServices->checkQuotaConflict($allocation);
                 $this->scheduleServices->checkLectuererConflict($allocation);
                 $this->scheduleServices->checkRoomConflict($allocation);
-                $this->scheduleServices->setIsHeldTrue($allocation);
-                $this->scheduleServices->setOccupiedTrue($allocation);
+                $this->scheduleServices->updateIsHeldTrue($allocation);
+                $this->scheduleServices->updateOccupiedTrue($allocation);
                 $this->scheduleServices->checkSameCourseSemester($allocation);
                 $this->scheduleServices->insert($allocation);
             } catch (ValidationException $e){
@@ -69,12 +69,15 @@ class ScheduleController extends Controller{
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $acadYearId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
-    {
-        //
+    public function show($acadYearId){
+        $data = $this->scheduleServices->getDetailsByAcadYear($acadYearId);
+        return response()->json([
+            "status" => "success",
+            "data" => $data,
+        ]);
     }
 
     /**

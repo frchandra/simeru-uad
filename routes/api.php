@@ -45,11 +45,15 @@ Route::delete('v1/lecturer_plot', [LecturerPlotController::class, 'destroy']);
 
 Route::get('v1/room_time_helper', [RoomTimeController::class, 'getHelper']);
 Route::get('v1/room_time', [RoomTimeController::class, 'index']);
+Route::get('v1/room_time/{acadYearId}', [RoomTimeController::class, 'show']);
 Route::put('v1/room_time', [RoomTimeController::class, 'update']);
 Route::post('v1/room_time', [RoomTimeController::class, 'store']);
 Route::delete('v1/room_time', [RoomTimeController::class, 'destroy']);
 
 
-Route::apiResource('/v1/schedule', ScheduleController::class);
+Route::post('/v1/schedule', [ScheduleController::class, 'store']);
+Route::get('/v1/schedule/{acadYearId}', [ScheduleController::class, 'show']);
+
+//Route::apiResource('/v1/schedule', ScheduleController::class);
 
 

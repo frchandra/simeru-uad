@@ -37,7 +37,7 @@ class ScheduleServices{
         $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->lecturer_id, $roomTime->time_id, $allocation['academic_year_id']);
 
         //if entry tidak ditemukan (dosen belum teralokasi pada waktu yang diberikan)
-        if($oldData->get()->count()<1){
+        if($oldData->count()<1){
             return true;
         } else {
             $lecturer = Lecturer::whereLecturerId($oldData->first()->lecturer_id)->first();
@@ -67,7 +67,7 @@ class ScheduleServices{
         $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id']);
         $oldData = $this->scheduleRepository->getByRoomTimeSemester($roomTime->first()->room_id, $roomTime->first()->time_id, $allocation['academic_year_id']);
         //if sudah terdapat room
-        if($oldData->get()->count()<1){
+        if($oldData->count()<1){
             return true;
         } else{
            $lecturer = Lecturer::whereLecturerId($oldData->first()->lecturer_id)->first();
@@ -112,13 +112,7 @@ class ScheduleServices{
 
     }
 
-    public function setOccupiedTrue($allocation){
-        RoomTime::whereRoomTimeId($allocation['room_time_id'])->update(['is_occupied' => true]);
-    }
 
-    public function setIsHeldTrue($allocation){
-        LecturerPlot::whereLecturerPlotId($allocation['lecturer_plot_id'])->update(['is_held' => true]);
-    }
 
     public function checkSameCourseSemester($allocation){
         //dalam satu sesi tidak boleh terselenggara lebih dari 2 sub class yang bersemester sama
@@ -129,16 +123,29 @@ class ScheduleServices{
         $timeId = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first()->time->time_id;
         $oldData = $this->scheduleRepository->getBySemesterTime($subClassSemester, $timeId);
 
-        if($oldData->get()->count()<2){
+        if($oldData->count()<2){
             return true;
         } else {
             $oldData = $oldData->join('sub_classes', 'schedules.sub_class_id','=', 'sub_classes.sub_class_id');
             throw ValidationException::withMessages(['messages' =>
                 ['description' => 'the third requirement is unsatisfied'],
-                ['data' => $oldData->get()->toArray()],
+                ['data' => $oldData->toArray()],
             ]);
         }
 
+    }
+
+    public function getDetailsByAcadYear($acadYearId){
+        return $this->scheduleRepository->getDetailsByAcadYear($acadYearId)->toArray();
+    }
+
+
+    public function updateOccupiedTrue($allocation){
+        RoomTime::whereRoomTimeId($allocation['room_time_id'])->update(['is_occupied' => true]);
+    }
+
+    public function updateIsHeldTrue($allocation){
+        LecturerPlot::whereLecturerPlotId($allocation['lecturer_plot_id'])->update(['is_held' => true]);
     }
 
     public function insert($allocation){
