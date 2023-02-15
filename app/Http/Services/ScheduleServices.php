@@ -47,7 +47,7 @@ class ScheduleServices{
 
 
             throw ValidationException::withMessages(['messages' => [
-               ['description' => 'This operation creates conflict with this classs'],
+               ['description' => 'This operation creates conflict with this lecturer allocation'],
                ['lecturer_name' => $lecturer->name],
                ['sub_class_name' => $subClass->name],
                ['room_name' => $room->name],
@@ -76,7 +76,7 @@ class ScheduleServices{
             $time = Time::whereTimeId($oldData->first()->time_id)->first();
 
            throw ValidationException::withMessages(['messages' => [
-                ['description' => 'This operation creates conflict with this class'],
+                ['description' => 'This operation creates conflict with this room/time allocation'],
                 ['lecturer_name' => $lecturer->name],
                 ['sub_class_name' => $subClass->name],
                 ['room_name' => $room->name],
