@@ -23,7 +23,7 @@ class RoomTimeRepository{
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|RoomTime|object
      */
     public function getByIdSemester($id, $semesterId){
-        return RoomTime::whereRoomTimeId($id)->where('academic_year_id', '=', $semesterId)->first();
+        return RoomTime::whereRoomTimeId($id)->where('academic_year_id', '=', $semesterId)->get();
     }
     public function create($allocation){
         return RoomTime::create($allocation);
