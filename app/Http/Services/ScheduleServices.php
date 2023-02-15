@@ -34,7 +34,7 @@ class ScheduleServices{
         //error: dosen dosenId telah mengajar di room_idx dan room_idy di waktu time_id
         $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id']);
         $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id']);
-        $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->lecturer_id, $roomTime->time_id, $allocation['academic_year_id']);
+        $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->first()->lecturer_id, $roomTime->first()->time_id, $allocation['academic_year_id']);
 
         //if entry tidak ditemukan (dosen belum teralokasi pada waktu yang diberikan)
         if($oldData->count()<1){
