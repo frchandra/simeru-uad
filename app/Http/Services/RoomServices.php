@@ -20,6 +20,10 @@ class RoomServices{
         return $this->roomRepository->getAll()->toArray();
     }
 
+    public function getByAcadYearId($id){
+        return $this->roomRepository->getByAcadYearId($id)->toArray();
+    }
+
     public function create($name, $quota){
         $this->roomRepository->create($name, $quota);
     }

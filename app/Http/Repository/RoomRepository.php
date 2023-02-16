@@ -17,6 +17,10 @@ class RoomRepository{
         return QueryBuilder::for(Room::class)->allowedFilters(['room_id','name','quota'])->get();
     }
 
+    public function getByAcadYearId($id){
+        return Room::whereRoomId($id)->get();
+    }
+
     public function create($name, $quota){
         $result = Room::create([
             'name' => $name,

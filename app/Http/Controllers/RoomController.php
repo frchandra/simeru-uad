@@ -47,11 +47,14 @@ class RoomController extends Controller{
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
-    {
-        //
+    public function show($id){
+        $data = $this->roomServices->getByAcadYearId($id);
+        return response()->json([
+            'status' => 'success',
+            'data' => $data,
+        ], 201);
     }
 
     /**
