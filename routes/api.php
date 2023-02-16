@@ -22,9 +22,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
+
+
 Route::post('v1/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->post('v1/logout', [UserController::class, 'logout']);
-Route::middleware('auth:sanctum')->post('v1/user', [UserController::class, 'me']);
+Route::middleware('auth:sanctum')->get('v1/user', [UserController::class, 'me']);
 
 Route::get('v1/lecturers/{acadYearId}', [LecturerController::class, 'lecturersCreditByAcadYear']);
 Route::get('v1/lecturer/{lecturerId}', [LecturerController::class, 'getLecturerCredit']);
