@@ -23,4 +23,8 @@ class RoomServices{
     public function create($name, $quota){
         $this->roomRepository->create($name, $quota);
     }
+
+    public function delete($id){
+        $this->roomRepository->delete($id);
+    }
 }

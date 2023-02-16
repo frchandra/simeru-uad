@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('is_possible');
 
             $table->foreign('time_id')->references('time_id')->on('times');
-            $table->foreign('room_id')->references('room_id')->on('rooms');
+            $table->foreign('room_id')->references('room_id')->on('rooms')->onDelete('cascade');
             $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years');
 
             $table->timestamps();
