@@ -98,8 +98,8 @@ class ScheduleServices{
         $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first();
         //TODO: handle if lecturerPLot & roomTime == null
 
-        $classQuota = SubClass::whereSubClassId($lecturePlot->first()->sub_class_id)->first()->quota;
-        $roomQuota = Room::whereRoomId($roomTime->first()->room_id)->first()->quota;
+        $classQuota = SubClass::whereSubClassId($lecturePlot->sub_class_id)->first()->quota;
+        $roomQuota = Room::whereRoomId($roomTime->room_id)->first()->quota;
 
         if($classQuota > $roomQuota){
             throw ValidationException::withMessages(['messages' =>
@@ -140,12 +140,12 @@ class ScheduleServices{
     }
 
 
-    public function updateOccupiedTrue($allocation){
-        RoomTime::whereRoomTimeId($allocation['room_time_id'])->update(['is_occupied' => true]);
+    public function updateOccupied($allocation, $value){
+        RoomTime::whereRoomTimeId($allocation['room_time_id'])->update(['is_occupied' => $value]);
     }
 
-    public function updateIsHeldTrue($allocation){
-        LecturerPlot::whereLecturerPlotId($allocation['lecturer_plot_id'])->update(['is_held' => true]);
+    public function updateIsHeld($allocation, $value){
+        LecturerPlot::whereLecturerPlotId($allocation['lecturer_plot_id'])->update(['is_held' => $value]);
     }
 
     public function insert($allocation){
@@ -159,6 +159,10 @@ class ScheduleServices{
         $allocation['time_id'] = $roomTime->first()->time_id;
 
         Schedule::create($allocation);
+    }
+
+    public function delete($lecturerPlotId, $roomTimeId, $acadYearId){
+        $this->scheduleRepository->delete($lecturerPlotId, $roomTimeId, $acadYearId);
     }
 
 }

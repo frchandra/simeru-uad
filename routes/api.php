@@ -22,10 +22,6 @@ use App\Http\Controllers\UserController;
 |
 */
 
-/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-
 Route::post('v1/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->post('v1/logout', [UserController::class, 'logout']);
 Route::middleware('auth:sanctum')->post('v1/user', [UserController::class, 'me']);
@@ -57,8 +53,9 @@ Route::delete('v1/room_time', [RoomTimeController::class, 'destroy']);
 
 
 Route::post('/v1/schedule', [ScheduleController::class, 'store']);
+Route::delete('/v1/schedule', [ScheduleController::class, 'destroy']);
 Route::get('/v1/schedule/{acadYearId}', [ScheduleController::class, 'show']);
 
-//Route::apiResource('/v1/schedule', ScheduleController::class);
+
 
 

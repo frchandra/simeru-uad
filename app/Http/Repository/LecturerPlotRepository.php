@@ -43,7 +43,7 @@ class LecturerPlotRepository{
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerCredit|object
      */
     public function getLecturerBySemester($lecturerId, $semesterId){
-        return LecturerCredit::whereLecturerId($lecturerId)->where('academic_year_id', '=', $semesterId)->first();
+        return LecturerCredit::whereLecturerId($lecturerId)->where('academic_year_id', '=', $semesterId)->get();
     }
 
 
@@ -55,7 +55,7 @@ class LecturerPlotRepository{
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerPlot|object
      */
     public function getBySubClassSemester($subClassId, $semesterId){
-        return LecturerPlot::whereAcademicYearId($semesterId)->where('sub_class_id', '=', $subClassId)->first();
+        return LecturerPlot::whereAcademicYearId($semesterId)->where('sub_class_id', '=', $subClassId)->get();
     }
 
     /**
@@ -64,11 +64,11 @@ class LecturerPlotRepository{
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|LecturerPlot|object
      */
     public function getByIdSemester($id, $semesterId){
-        return LecturerPlot::whereLecturerPlotId($id)->where('academic_year_id', '=', $semesterId)->first();
+        return LecturerPlot::whereLecturerPlotId($id)->where('academic_year_id', '=', $semesterId)->get();
     }
 
     public function getByAcadYearSubClass($acadYearId, $subClass){
-        return LecturerPlot::whereAcademicYearId($acadYearId)->where('sub_class_id', '=', $subClass)->first();
+        return LecturerPlot::whereAcademicYearId($acadYearId)->where('sub_class_id', '=', $subClass)->get();
     }
 
     public function createLecturerAllocation($allocation){

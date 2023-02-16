@@ -27,7 +27,7 @@ class LecturerPlotServices{
     }
 
     public function getByAcadYearSubClass($acadYearId, $subClass){
-        return $this->lecturerPlotRepository->getByAcadYearSubClass($acadYearId, $subClass);
+        return $this->lecturerPlotRepository->getByAcadYearSubClass($acadYearId, $subClass)->first();
     }
 
 
@@ -40,7 +40,7 @@ class LecturerPlotServices{
      * @return boolean
      */
     public function checkLecturerAvailability($lecturerId, $semesterId, $classId){
-        $lecturer = $this->lecturerPlotRepository->getLecturerBySemester($lecturerId, $semesterId);
+        $lecturer = $this->lecturerPlotRepository->getLecturerBySemester($lecturerId, $semesterId)->first();
         //If the lecturer has not allocated for the semester then return true
         if($lecturer == null){
             return true;
@@ -68,7 +68,7 @@ class LecturerPlotServices{
      * @return boolean
      */
     public function checkPlotAvailability($subClassId, $semesterId){
-        $subClass = $this->lecturerPlotRepository->getBySubClassSemester($subClassId, $semesterId);
+        $subClass = $this->lecturerPlotRepository->getBySubClassSemester($subClassId, $semesterId)->first();
         //If there are no allocation (plot) then return true
         if($subClass == null){
             return true;
@@ -85,7 +85,7 @@ class LecturerPlotServices{
     }
 
     public function checkPlotAvailabilityForUpdate($subClassId, $semesterId){
-        $subClass = $this->lecturerPlotRepository->getBySubClassSemester($subClassId, $semesterId);
+        $subClass = $this->lecturerPlotRepository->getBySubClassSemester($subClassId, $semesterId)->first();
         //If there are no allocation (plot) then return 0 because currently there are no allocated lecture_id for this plot
         if($subClass == null){
             return 0;

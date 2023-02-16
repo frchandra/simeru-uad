@@ -6,10 +6,12 @@ use App\Http\Services\ScheduleServices;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class ScheduleController extends Controller{
+class ScheduleController extends Controller
+{
     private ScheduleServices $scheduleServices;
 
-    public function __construct(ScheduleServices $scheduleServices){
+    public function __construct(ScheduleServices $scheduleServices)
+    {
         $this->scheduleServices = $scheduleServices;
     }
 
@@ -18,17 +20,19 @@ class ScheduleController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index()
+    {
         //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         /**
          * untuk setiap request
          *  start tx
@@ -46,11 +50,11 @@ class ScheduleController extends Controller{
                 $this->scheduleServices->checkQuotaConflict($allocation);
                 $this->scheduleServices->checkLectuererConflict($allocation);
                 $this->scheduleServices->checkRoomConflict($allocation);
-                $this->scheduleServices->updateIsHeldTrue($allocation);
-                $this->scheduleServices->updateOccupiedTrue($allocation);
+                $this->scheduleServices->updateIsHeld($allocation, true);
+                $this->scheduleServices->updateOccupied($allocation, true);
                 $this->scheduleServices->checkSameCourseSemester($allocation);
                 $this->scheduleServices->insert($allocation);
-            } catch (ValidationException $e){
+            } catch (ValidationException $e) {
                 \DB::rollBack();
                 return response()->json([
                     "status" => "fail",
@@ -69,10 +73,11 @@ class ScheduleController extends Controller{
     /**
      * Display the specified resource.
      *
-     * @param  int  $acadYearId
+     * @param int $acadYearId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($acadYearId){
+    public function show($acadYearId)
+    {
         $data = $this->scheduleServices->getDetailsByAcadYear($acadYearId);
         return response()->json([
             "status" => "success",
@@ -83,8 +88,8 @@ class ScheduleController extends Controller{
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -95,11 +100,20 @@ class ScheduleController extends Controller{
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $allocations = $request->get('data');
+
+        foreach ($allocations as $allocation) {
+            $this->scheduleServices->updateIsHeld($allocation, false);
+            $this->scheduleServices->updateOccupied($allocation, false);
+            $this->scheduleServices->delete($allocation['lecturer_plot_id'], $allocation['room_time_id'], $allocation['academic_year_id']);
+            return response()->json([
+                "status" => "success",
+            ], 201);
+        }
+
     }
 }
