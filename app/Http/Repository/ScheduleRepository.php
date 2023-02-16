@@ -18,7 +18,7 @@ class ScheduleRepository{
     }
 
     public function getDetailsByAcadYear($acadYearId){
-        return Schedule::
+        return Schedule::whereAcademicYearId($acadYearId)->
             join('lecturers', 'lecturers.lecturer_id', '=', 'schedules.lecturer_id')->
             join('sub_classes', 'sub_classes.sub_class_id', '=', 'schedules.sub_class_id')->
             join('rooms', 'rooms.room_id', '=', 'schedules.room_id')->
