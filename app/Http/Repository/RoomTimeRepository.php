@@ -15,6 +15,14 @@ class RoomTimeRepository{
         return RoomTimeHelper::get();
     }
 
+    public function getByAcadYearId($acadYearId){
+        return RoomTime::whereAcademicYearId($acadYearId)->get();
+    }
+
+    public function getHelperByAcadYearId($acadYearId){
+        return RoomTime::whereAcademicYearId($acadYearId)->get();
+    }
+
     public function getByDetails($roomId, $timeId, $semesterId){
         return RoomTime::whereTimeId($timeId)->where('room_id', '=', $roomId)->where('academic_year_id', '=', $semesterId)->get();
     }

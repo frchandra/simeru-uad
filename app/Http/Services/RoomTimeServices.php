@@ -20,6 +20,14 @@ class RoomTimeServices{
         return $this->roomTimeRepository->getAllHelper()->toArray();
     }
 
+    public function getByAcadYearId($acadYearId){
+        return $this->roomTimeRepository->getByAcadYearId($acadYearId)->toArray();
+    }
+
+    public function getHelperByAcadYearId($acadYearId){
+        return $this->roomTimeRepository->getHelperByAcadYearId($acadYearId);
+    }
+
     public function create($allocation){
         $oldData = $this->roomTimeRepository->getByDetails($allocation['room_id'], $allocation['time_id'], $allocation['academic_year_id']);
         if($oldData->count()>0) {

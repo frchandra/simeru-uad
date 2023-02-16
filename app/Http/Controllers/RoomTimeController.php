@@ -37,6 +37,14 @@ class RoomTimeController extends Controller{
         ]);
     }
 
+    public function getHelperByAcadYearId($acadYearId){
+        $data = $this->roomTimeServices->getHelperByAcadYearId($acadYearId);
+        return response()->json([
+            "status" => "success",
+            "data" => $data,
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -67,10 +75,14 @@ class RoomTimeController extends Controller{
      * Display the specified resource.
      *
      * @param  int  $acadYearId
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($acadYearId){
-        //
+        $data = $this->roomTimeServices->getByAcadYearId($acadYearId);
+        return response()->json([
+            "status" => "success",
+            "data" => $data,
+        ], 201);
     }
 
     /**
