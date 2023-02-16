@@ -71,6 +71,13 @@ class LecturerPlotRepository{
         return LecturerPlot::whereAcademicYearId($acadYearId)->where('sub_class_id', '=', $subClass)->get();
     }
 
+    public function isLecturerCreditExist($lectureId, $semesterId){
+        return LecturerCredit::where([
+            'lecturer_id' => $lectureId,
+            'academic_year_id' => $semesterId,
+        ])->get();
+    }
+
     public function createLecturerAllocation($allocation){
         return LecturerPlot::create($allocation);
     }
@@ -99,12 +106,11 @@ class LecturerPlotRepository{
         DB::table('lecturer_credits')->where('lecturer_id', '=', $lecturerId)->update(['sub_class_count' => DB::raw('sub_class_count - '.strval($classCount))]);
     }
 
-    public function isLecturerCreditExist($lectureId, $semesterId){
-        return LecturerCredit::where([
-            'lecturer_id' => $lectureId,
-            'academic_year_id' => $semesterId,
-        ])->get();
+    public function delete($lecturerId, $subClassId, $acadYearId){
+        LecturerPlot::whereLecturerId($lecturerId)->where('sub_class_id', '=', $subClassId)->where('academic_year_id', '=', $acadYearId)->delete();
     }
+
+
 
 
 

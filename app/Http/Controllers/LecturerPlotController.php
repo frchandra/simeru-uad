@@ -125,11 +125,15 @@ class LecturerPlotController extends Controller{
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Request $request){
+        $allocations = $request->get('data');
+        foreach ($allocations as $allocation) {
+            $this->lecturerPlotServices->delete($allocation['lecturer_id'], $allocation['sub_class_id'], $allocation['academic_year_id']);
+        }
+        return response()->json([
+            "status" => "success",
+        ], 201);
     }
 }

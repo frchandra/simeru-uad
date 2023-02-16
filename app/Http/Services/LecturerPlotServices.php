@@ -132,4 +132,8 @@ class LecturerPlotServices{
         }
         return $data;
     }
+
+    public function delete($lecturerId, $subClassId, $acadYearId){
+        $this->lecturerPlotRepository->delete($lecturerId, $subClassId, $acadYearId);
+    }
 }
