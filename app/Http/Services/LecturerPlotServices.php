@@ -115,7 +115,6 @@ class LecturerPlotServices{
 
     public function allocateLecturerForUpdate($allocation, $prevLecturerId, $prevLecturerPlotId){
         //add is held field to the data
-        $allocation['is_held'] = false;
         $data = $this->lecturerPlotRepository->updateLecturerAllocation($allocation, $prevLecturerPlotId);
         $classCredit = $this->subClassRepository->show($allocation['sub_class_id'])->first()->toArray()['credit'];
         //Update (remove allocation) lecturer credit data for previous lecturer

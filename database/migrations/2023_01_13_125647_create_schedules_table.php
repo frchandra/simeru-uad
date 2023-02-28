@@ -27,6 +27,7 @@ return new class extends Migration
             $table->unsignedBigInteger('time_id');
 
             $table->foreign('lecturer_plot_id')->references('lecturer_plot_id')->on('lecturer_plots');
+            $table->foreign('lecturer_id')->references('lecturer_id')->on('lecturer_plots')->onUpdate('cascade');
             $table->foreign('room_time_id')->references('room_time_id')->on('room_times');
             $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years');
 
