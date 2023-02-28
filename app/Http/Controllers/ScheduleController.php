@@ -66,8 +66,41 @@ class ScheduleController extends Controller
         return response()->json([
             "status" => "success",
         ], 201);
+    }
 
+    public function bruteStore(Request $request){
+        /**
+         * untuk setiap request
+         *  start tx
+         *  cek apakah dosen telah mengajar di sesi yang sama
+         *  cek apakah kapasitas ruang waktu mencukupi
+         *  cek duplikasi mk ruang
+         *  rubah okupasi roomtime dan lecturerclass
+         *  end tx
+         */
 
+        $allocations = $request->get('data');
+        \DB::beginTransaction();
+        foreach ($allocations as $allocation) {
+            try {
+                $this->scheduleServices->checkQuotaConflict($allocation);
+                $this->scheduleServices->checkLectuererConflict($allocation);
+                $this->scheduleServices->checkRoomConflict($allocation);
+                $this->scheduleServices->updateIsHeld($allocation, true);
+                $this->scheduleServices->updateOccupied($allocation, true);
+                $this->scheduleServices->insert($allocation);
+            } catch (ValidationException $e) {
+                \DB::rollBack();
+                return response()->json([
+                    "status" => "fail",
+                    "messages" => $e->errors()['messages'],
+                ], 400);
+            }
+        }
+        \DB::commit();
+        return response()->json([
+            "status" => "success",
+        ], 201);
     }
 
     /**
