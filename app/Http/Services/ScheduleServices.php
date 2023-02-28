@@ -27,14 +27,18 @@ class ScheduleServices{
     }
 
 
-    public function checkLectuererConflict($allocation){
+    public function checkLectuererConflict($lecturerPlotId, $roomTimeId, $acadYearId){
         //memastikan tidak ada dosen yg mengajar di ruang yg berbeda diwaktu yang sama
         //ambil data RoomTime berdasarkan lecturerId yang diberikan
         //cek apakah bila data diinputkan maka akan terdapat room yg berbeda diwaktu yang sama => cek apakah terdapat entry dengan lecturid dan timeid yang sama => apakah ada olddata dengan timeid==timeid
         //error: dosen dosenId telah mengajar di room_idx dan room_idy di waktu time_id
-        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id']);
-        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id']);
-        $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->first()->lecturer_id, $roomTime->first()->time_id, $allocation['academic_year_id']);
+        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($lecturerPlotId, $acadYearId);
+        $roomTime = $this->roomTimeRepository->getByIdSemester($roomTimeId, $acadYearId);
+        if(!$roomTime->first()){
+            throw ValidationException::withMessages(['messages' => 'alokasi melebihi jadwal ruangan']);
+        }
+
+        $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->first()->lecturer_id, $roomTime->first()->time_id, $acadYearId);
 
         //if entry tidak ditemukan (dosen belum teralokasi pada waktu yang diberikan)
         if($oldData->count()<1){
@@ -59,14 +63,14 @@ class ScheduleServices{
 
     }
 
-    public function checkRoomConflict($allocation){
+    public function checkRoomTimeConflict($roomTimeId, $acadYearId){
         //memastikan tidak ada sub class yang terselenggara di ruang&waktu yang akan dialokasikan
         //ambil data lecturer/subclass dari roomId yang diberikan
-        //cek apakah bila data diinputkan maka akan terdapat lecturer/class yang berbeda di waktu&ruang yang sama => cek apakah terdapat waktu&ruang yang sama => apakah ada ol data dengan waktu&ruang == waktu&ruang
+        //cek apakah bila data diinputkan maka akan terdapat lecturer/class yang berbeda di waktu&ruang yang sama => cek apakah terdapat waktu&ruang yang sama => apakah ada data dengan waktu&ruang == waktu&ruang
         //error: ruang x di waktu y telah diisi dosen/class
-        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id']);
-        $oldData = $this->scheduleRepository->getByRoomTimeSemester($roomTime->first()->room_id, $roomTime->first()->time_id, $allocation['academic_year_id']);
-        //if sudah terdapat room
+        $roomTime = $this->roomTimeRepository->getByIdSemester($roomTimeId, $acadYearId);
+        $oldData = $this->scheduleRepository->getByRoomTimeSemester($roomTime->first()->room_id, $roomTime->first()->time_id, $acadYearId);
+        //if belum terdapat room
         if($oldData->count()<1){
             return true;
         } else{
@@ -89,19 +93,15 @@ class ScheduleServices{
 
     }
 
-    public function checkQuotaConflict($allocation){
+    public function checkQuotaConflict($lecturerPlotId, $roomTimeId, $acadYearId){
         //matkul tidak boleh diselenggarakan di ruang yang kapasitasnya lebih kecil dari quota kelas
         //ambil data kuota kelas dari classid
         //ambil data kuota kelas dari roomid
         //bandingkan
-        $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id'])->first();
-        $roomTime = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first();
-        //TODO: handle if lecturerPLot & roomTime == null
+        $classQuota = $this->lecturerPlotRepository->getByIdSemester($lecturerPlotId, $acadYearId);
+        $roomQuota = $this->roomTimeRepository->getByIdSemester($roomTimeId, $acadYearId);
 
-        $classQuota = SubClass::whereSubClassId($lecturePlot->sub_class_id)->first()->quota;
-        $roomQuota = Room::whereRoomId($roomTime->room_id)->first()->quota;
-
-        if($classQuota > $roomQuota){
+        if($classQuota->first()->subClass->quota > $roomQuota->first()->room->quota){
             throw ValidationException::withMessages(['messages' =>
                 ['description' => 'the quota for the class is higher than room quota'],
                 ['sub_class_quota' => $classQuota],
@@ -113,15 +113,14 @@ class ScheduleServices{
     }
 
 
-
-    public function checkSameCourseSemester($allocation){
+    public function checkSameCourseSemester($lecturerPlotId, $roomTimeId, $acadYearId){
         //dalam satu sesi tidak boleh terselenggara lebih dari 2 sub class yang bersemester sama
-        //ambil data courseid dari lecturer_plot_id yang diberikan.
+        //ambil data subclasssemster dari lecturer_plot_id yang diberikan.
         //ambil data time_id dari room_time_id
-        //cek apakah bila data diinputkan maka akan constrain akan terlanggar. select where session==session and courseid==courseid => if result >2 => error
-        $subClassSemester = $this->lecturerPlotRepository->getByIdSemester($allocation['lecturer_plot_id'], $allocation['academic_year_id'])->first()->subClass->semester;
-        $timeId = $this->roomTimeRepository->getByIdSemester($allocation['room_time_id'], $allocation['academic_year_id'])->first()->time->time_id;
-        $oldData = $this->scheduleRepository->getBySemesterTime($subClassSemester, $timeId);
+        //cek apakah bila data diinputkan maka akan constrain akan terlanggar. select where session==session and subclasssemster==subclasssemster => if result >2 => error
+        $newSubClassSemester = $this->lecturerPlotRepository->getByIdSemester($lecturerPlotId, $acadYearId)->first()->subClass->semester;
+        $newTimeId = $this->roomTimeRepository->getByIdSemester($roomTimeId, $acadYearId)->first()->time->time_id;
+        $oldData = $this->scheduleRepository->getBySemesterTimeAcadYearId($newSubClassSemester, $newTimeId, $acadYearId);
 
         if($oldData->count()<2){
             return true;
@@ -140,12 +139,12 @@ class ScheduleServices{
     }
 
 
-    public function updateOccupied($allocation, $value){
-        RoomTime::whereRoomTimeId($allocation['room_time_id'])->update(['is_occupied' => $value]);
+    public function updateOccupied($roomTimeId, $value){
+        RoomTime::whereRoomTimeId($roomTimeId)->update(['is_occupied' => $value]);
     }
 
-    public function updateIsHeld($allocation, $value){
-        LecturerPlot::whereLecturerPlotId($allocation['lecturer_plot_id'])->update(['is_held' => $value]);
+    public function updateIsHeld($lecturerPlotId, $value){
+        LecturerPlot::whereLecturerPlotId($lecturerPlotId)->update(['is_held' => $value]);
     }
 
     public function insert($allocation){

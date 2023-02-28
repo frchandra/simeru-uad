@@ -17,7 +17,7 @@ class RoomTimeHelperSeeder extends Seeder
     {
         for($i=1; $i<=8; $i++){ //room
             for($j=1; $j<=6; $j++){ //hari
-                for($k=1; $k<=4; $k++){ // sesi
+                for($k=1; $k<=12; $k++){ // sesi
                     RoomTimeHelper::create([
                         "room_id" => $i,
                         "time_id" => (($j-1)*4)+$k,

@@ -3,6 +3,8 @@
 namespace App\Http\Repository;
 
 use App\Models\Schedule;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class ScheduleRepository{
     public function getByLectuererTimeSemester($lecturerId, $timeId, $semesterId){
@@ -13,8 +15,14 @@ class ScheduleRepository{
         return Schedule::whereRoomId($roomId)->where('time_id', '=', $timeId)->where('academic_year_id', '=', $semesterId)->get();
     }
 
-    public function getBySemesterTime($semester, $timeId){
-        return Schedule::whereSubClassSemester($semester)->where('time_id', '=', $timeId)->get();
+    /**
+     * @param $semester
+     * @param $timeId
+     * @param $acadYearId
+     * @return Schedule|Builder|Collection
+     */
+    public function getBySemesterTimeAcadYearId($semester, $timeId, $acadYearId){
+        return Schedule::whereSubClassSemester($semester)->where('time_id', '=', $timeId)->where('academic_year_id', '=', $acadYearId)->get();
     }
 
     public function getDetailsByAcadYear($acadYearId){

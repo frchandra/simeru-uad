@@ -14,8 +14,8 @@ class TimeSeeder extends Seeder
      * @return void
      */
     public function run(){
-        for($i=1; $i<7; $i++){
-            for($j=1; $j<5; $j++){
+        for($i=1; $i<=6; $i++){
+            for($j=1; $j<=12; $j++){
                 Time::create([
                     'day'=>$i,
                     'session'=>$j
