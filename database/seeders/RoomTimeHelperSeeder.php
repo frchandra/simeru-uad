@@ -20,7 +20,7 @@ class RoomTimeHelperSeeder extends Seeder
                 for($k=1; $k<=12; $k++){ // sesi
                     RoomTimeHelper::create([
                         "room_id" => $i,
-                        "time_id" => (($j-1)*4)+$k,
+                        "time_id" => (($j-1)*12)+$k,
                         "academic_year_id" => 1,
                         "is_occupied" => false,
                         "is_possible" => false,
