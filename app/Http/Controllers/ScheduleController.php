@@ -65,6 +65,7 @@ class ScheduleController extends Controller
                     $this->scheduleServices->updateOccupied($roomTimeId, true);
                     $this->scheduleServices->insert($allocation);
                     $roomTimeId++;
+                    $allocation['room_time_id']=$roomTimeId;
                 }
 
                 $this->scheduleServices->updateIsHeld($lecturerPlotId, true);
