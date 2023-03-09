@@ -45,7 +45,7 @@ class Schedule extends Model{
     protected $table = 'schedules';
     protected $primaryKey = 'schedule_id';
     public $timestamps = true;
-    protected $fillable = ['academic_year_id', 'lecturer_plot_id', 'room_time_id', 'lecturer_id', 'sub_class_id', 'sub_class_semester', 'room_id', 'time_id'];
+    protected $fillable = ['academic_year_id', 'lecturer_plot_id', 'room_time_id', 'lecturer_id', 'sub_class_id', 'sub_class_semester', 'room_id', 'time_id', 'color_data'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function academicYear(){

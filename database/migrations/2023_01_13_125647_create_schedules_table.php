@@ -26,6 +26,8 @@ return new class extends Migration
             $table->unsignedBigInteger('room_id');
             $table->unsignedBigInteger('time_id');
 
+            $table->string('color_data')->nullable();
+
             $table->foreign('lecturer_plot_id')->references('lecturer_plot_id')->on('lecturer_plots');
             $table->foreign('lecturer_id')->references('lecturer_id')->on('lecturer_plots')->onUpdate('cascade');
             $table->foreign('room_time_id')->references('room_time_id')->on('room_times');
