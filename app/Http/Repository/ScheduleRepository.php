@@ -47,7 +47,7 @@ class ScheduleRepository{
             ]);
     }
 
-    public function delete($lecturerPlotId, $roomTimeId, $acadYearId){
-        return Schedule::whereLecturerPlotId($lecturerPlotId)->where('room_time_id', '=', $roomTimeId)->where('academic_year_id', '=', $acadYearId)->delete();
+    public function deleteByLecturerPlot($lecturerPlotId, $acadYearId){
+        return Schedule::whereLecturerPlotId($lecturerPlotId)->where('academic_year_id', '=', $acadYearId)->delete();
     }
 }

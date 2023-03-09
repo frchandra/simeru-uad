@@ -9,6 +9,7 @@ use App\Models\Lecturer;
 use App\Models\LecturerPlot;
 use App\Models\Room;
 use App\Models\RoomTime;
+use App\Models\RoomTimeHelper;
 use App\Models\Schedule;
 use App\Models\SubClass;
 use App\Models\Time;
@@ -141,6 +142,8 @@ class ScheduleServices{
 
     public function updateOccupied($roomTimeId, $value){
         RoomTime::whereRoomTimeId($roomTimeId)->update(['is_occupied' => $value]);
+        $roomTime = RoomTime::whereRoomTimeId($roomTimeId)->first();
+        RoomTimeHelper::whereRoomId($roomTime->room_id)->where('time_id', '=', $roomTime->time_id)->update(['is_occupied' => $value]);
     }
 
     public function updateIsHeld($lecturerPlotId, $value){
@@ -160,8 +163,8 @@ class ScheduleServices{
         Schedule::create($allocation);
     }
 
-    public function delete($lecturerPlotId, $roomTimeId, $acadYearId){
-        $this->scheduleRepository->delete($lecturerPlotId, $roomTimeId, $acadYearId);
+    public function delete($lecturerPlotId, $acadYearId){
+        $this->scheduleRepository->deleteByLecturerPlot($lecturerPlotId, $acadYearId);
     }
 
 }

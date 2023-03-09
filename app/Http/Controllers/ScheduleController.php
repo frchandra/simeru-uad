@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\ScheduleServices;
 use App\Models\LecturerPlot;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -169,9 +170,12 @@ class ScheduleController extends Controller
         $allocations = $request->get('data');
 
         foreach ($allocations as $allocation) {
-            $this->scheduleServices->updateIsHeld($allocation, false);
-            $this->scheduleServices->updateOccupied($allocation, false);
-            $this->scheduleServices->delete($allocation['lecturer_plot_id'], $allocation['room_time_id'], $allocation['academic_year_id']);
+            $this->scheduleServices->updateIsHeld($allocation['lecturer_plot_id'], false);
+            $roomTimeIds = Schedule::whereLecturerPlotId($allocation['lecturer_plot_id'])->select(['room_time_id'])->get()->toArray();
+            foreach ($roomTimeIds as $roomTimeId) {
+                $this->scheduleServices->updateOccupied($roomTimeId, false);
+            }
+            $this->scheduleServices->delete($allocation['lecturer_plot_id'], $allocation['academic_year_id']);
             return response()->json([
                 "status" => "success",
             ], 201);
