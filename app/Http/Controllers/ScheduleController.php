@@ -27,6 +27,8 @@ class ScheduleController extends Controller
         //
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -146,6 +148,52 @@ class ScheduleController extends Controller
             "status" => "success",
             "data" => $data,
         ]);
+    }
+
+    public function showFormatted($acadYearId){
+        $data = array();
+        $temp = array();
+        $prev = array();
+        $schedules = $this->scheduleServices->getDetailsByAcadYear($acadYearId);
+        foreach ($schedules as $schedule) {
+            if(isset($prev["lecturer_plot_id"]) && $prev["lecturer_plot_id"] != $schedule["lecturer_plot_id"]){
+                $data = array_push($data, $temp); //save temp data
+                $temp = array(); //create new empty temp
+            }
+            $re = '/(.*)([a-z])[^a-z]*$/i';
+            $str = $schedule["sub_class_name"];
+            preg_match_all($re, $str, $matches);
+            $temp["Mata Kuliah"] = $matches[1][0];
+            $temp["Kelas"] = $matches[2][0];
+            $temp["Semester"] = $schedule["sub_class_semester"];
+            $temp["Kapasitas"] = $schedule["sub_class_quota"];
+            $temp["Dosen Pengampu"] = $schedule["lecturer_name"];
+            $temp["Ruang"] = $schedule["room_name"];
+            if ($schedule["day"] == 1){
+                $temp["Hari"] = "senin";
+            } elseif ($schedule["day"] == 2){
+                $temp["Hari"] = "selasa";
+            } elseif ($schedule["day"] == 3){
+                $temp["Hari"] = "rabu";
+            } elseif ($schedule["day"] == 4){
+                $temp["Hari"] = "kamis";
+            } elseif ($schedule["day"] == 5){
+                $temp["Hari"] = "jumat";
+            } elseif ($schedule["day"] == 6){
+                $temp["Hari"] = "sabtu";
+            }
+            $temp["Sesi"][] = $schedule["session"];
+
+
+            $prev = $schedule;
+        }
+        array_push($data, $temp); //save temp data
+        return response()->json([
+            "status" => "success",
+            "data" => $data,
+        ], 200);
+
+
     }
 
     /**

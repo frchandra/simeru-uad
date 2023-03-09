@@ -60,6 +60,7 @@ Route::post('/v1/schedule', [ScheduleController::class, 'store']);
 Route::post('/v1/schedule/brute_store', [ScheduleController::class, 'bruteStore']);
 Route::delete('/v1/schedule', [ScheduleController::class, 'destroy']);
 Route::get('/v1/schedule/{acadYearId}', [ScheduleController::class, 'show']);
+Route::get('/v1/schedule/formatted/{acadYearId}', [ScheduleController::class, 'showFormatted']);
 
 Route::apiResource('/v1/academic_year', AcademicYearController::class);
 
