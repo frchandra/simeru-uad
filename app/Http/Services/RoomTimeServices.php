@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Repository\RoomTimeRepository;
+use App\Models\RoomTime;
 use Illuminate\Validation\ValidationException;
 
 class RoomTimeServices{
@@ -39,6 +40,10 @@ class RoomTimeServices{
     }
 
     public function delete($allocation){
+        $roomTime = RoomTime::whereRoomId($allocation['room_id'])->where('time_id', '=', $allocation['time_id'])->where('academic_year_id', '=', $allocation['academic_year_id'])->first();
+        if ($roomTime->is_occupied == true){
+            throw ValidationException::withMessages(['messages' => 'this action cannot be done room_id '.$roomTime->room_id. ' is already occupied']);
+        }
         $this->roomTimeRepository->deleteHelper($allocation);
         return $this->roomTimeRepository->delete($allocation);
     }
