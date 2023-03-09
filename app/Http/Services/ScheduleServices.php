@@ -36,7 +36,7 @@ class ScheduleServices{
         $lecturePlot = $this->lecturerPlotRepository->getByIdSemester($lecturerPlotId, $acadYearId);
         $roomTime = $this->roomTimeRepository->getByIdSemester($roomTimeId, $acadYearId);
         if(!$roomTime->first()){
-            throw ValidationException::withMessages(['messages' => 'alokasi melebihi jadwal ruangan']);
+            throw ValidationException::withMessages(['messages' => 'room time with id '.$roomTimeId.' is not exist']);
         }
 
         $oldData = $this->scheduleRepository->getByLectuererTimeSemester($lecturePlot->first()->lecturer_id, $roomTime->first()->time_id, $acadYearId);
@@ -69,12 +69,14 @@ class ScheduleServices{
         //ambil data lecturer/subclass dari roomId yang diberikan
         //cek apakah bila data diinputkan maka akan terdapat lecturer/class yang berbeda di waktu&ruang yang sama => cek apakah terdapat waktu&ruang yang sama => apakah ada data dengan waktu&ruang == waktu&ruang
         //error: ruang x di waktu y telah diisi dosen/class
-        $roomTime = $this->roomTimeRepository->getByIdSemester($roomTimeId, $acadYearId);
-        $oldData = $this->scheduleRepository->getByRoomTimeSemester($roomTime->first()->room_id, $roomTime->first()->time_id, $acadYearId);
+        $roomTime = $this->roomTimeRepository->getByIdSemester($roomTimeId, $acadYearId)->first();
+        $oldData = $this->scheduleRepository->getByRoomTimeSemester($roomTime->room_id, $roomTime->time_id, $acadYearId);
         //if belum terdapat room
-        if($oldData->count()<1){
+        if($roomTime == null){
+            throw ValidationException::withMessages(['messages' => 'room time with id '.$roomTimeId.' is not exist']);
+        } else if (!$oldData){        //if room time is not occupied
             return true;
-        } else{
+        } else {
            $lecturer = Lecturer::whereLecturerId($oldData->first()->lecturer_id)->first();
             $subClass = SubClass::whereSubClassId($oldData->first()->sub_class_id)->first();
             $room = Room::whereRoomId($oldData->first()->room_id)->first();
