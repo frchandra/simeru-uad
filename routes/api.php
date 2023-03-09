@@ -9,6 +9,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\OfferedSubClassController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AcademicYearController;
 
 
 /*
@@ -59,6 +60,8 @@ Route::post('/v1/schedule', [ScheduleController::class, 'store']);
 Route::post('/v1/schedule/brute_store', [ScheduleController::class, 'bruteStore']);
 Route::delete('/v1/schedule', [ScheduleController::class, 'destroy']);
 Route::get('/v1/schedule/{acadYearId}', [ScheduleController::class, 'show']);
+
+Route::apiResource('/v1/academic_year', AcademicYearController::class);
 
 
 

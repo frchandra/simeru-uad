@@ -40,6 +40,8 @@ class AcademicYear extends Model{
     protected $table = 'academic_years';
     protected $primaryKey = 'academic_year_id';
     public $timestamps = true;
+    protected $fillable = ['start_year', 'end_year', 'semester'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function lecturerPlots(){
         return $this->hasMany(LecturerPlot::class, 'academic_year_id', 'academic_year_id');
