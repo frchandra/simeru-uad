@@ -29,10 +29,21 @@ class AcademicYearController extends Controller
     public function store(Request $request){
         $newAcadYear = $request->toArray();
         $result = AcademicYear::firstOrCreate($newAcadYear)->academic_year_id;
+        if ($result - 2 > 0){
+
+
+
+        }
+
         return response()->json([
-                "message" => "success",
-                "academic_year_id" => $result
+            "message" => "success",
+            "academic_year_id" => $result
         ], 200);
+
+
+
+
+
     }
 
     /**
