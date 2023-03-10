@@ -14,7 +14,7 @@ class AcademicYearSeeder extends Seeder
      * @return void
      */
     public function run(){
-        for($i=2022; $i<2025; $i++){
+        for($i=2022; $i<2023; $i++){
             for($j=0; $j<2; $j++){
                 AcademicYear::create([
                     'start_year' => $i,

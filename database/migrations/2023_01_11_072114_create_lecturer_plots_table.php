@@ -16,7 +16,7 @@ return new class extends Migration{
             $table->id('lecturer_plot_id');
             $table->unsignedBigInteger('lecturer_id')->nullable();
             $table->unsignedBigInteger('sub_class_id');
-            $table->unsignedBigInteger('academic_year_Id');
+            $table->unsignedBigInteger('academic_year_id');
             $table->boolean('is_held');
 
             $table->foreign('lecturer_id')->references('lecturer_id')->on('lecturers');
