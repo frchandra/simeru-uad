@@ -47,8 +47,8 @@ Route::post('v1/lecturer_plot', [LecturerPlotController::class, 'store']);
 Route::delete('v1/lecturer_plot', [LecturerPlotController::class, 'destroy']);
 
 
-Route::get('v1/room_time_helper', [RoomTimeController::class, 'getHelper']);
-Route::get('v1/room_time_helper/{acadyearId}', [RoomTimeController::class, 'getHelper']);
+
+Route::get('v1/room_time_helper/{acadYearId}', [RoomTimeController::class, 'getHelperByAcadYearId']);
 Route::get('v1/room_time', [RoomTimeController::class, 'index']);
 Route::get('v1/room_time/{acadYearId}', [RoomTimeController::class, 'show']);
 Route::put('v1/room_time', [RoomTimeController::class, 'update']);

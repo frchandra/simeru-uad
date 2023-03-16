@@ -29,13 +29,6 @@ class RoomTimeController extends Controller{
 
     }
 
-    public function getHelper(){
-        $roomTimesHelper = $this->roomTimeServices->getAllHelper();
-        return response()->json([
-            "status" => "success",
-            "data" => $roomTimesHelper,
-        ]);
-    }
 
     public function getHelperByAcadYearId($acadYearId){
         $data = $this->roomTimeServices->getHelperByAcadYearId($acadYearId);
