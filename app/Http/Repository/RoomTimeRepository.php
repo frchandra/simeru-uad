@@ -20,7 +20,7 @@ class RoomTimeRepository{
     }
 
     public function getHelperByAcadYearId($acadYearId){
-        return RoomTime::whereAcademicYearId($acadYearId)->get();
+        return RoomTimeHelper::whereAcademicYearId($acadYearId)->get();
     }
 
     public function getByDetails($roomId, $timeId, $semesterId){
