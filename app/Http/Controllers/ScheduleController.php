@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\ScheduleServices;
 use App\Models\LecturerPlot;
+use App\Models\RoomTime;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -57,13 +58,14 @@ class ScheduleController extends Controller
             $roomTimeId = (int)$allocation['room_time_id'];
             $lecturerPlotId = (int)$allocation['lecturer_plot_id'];
             $acadYearId = (int)$allocation['academic_year_id'];
+            $roomTimeDay = RoomTime::whereRoomTimeId($roomTimeId)->time->day;
 
             try {
                 $this->scheduleServices->checkQuotaConflict($lecturerPlotId, $roomTimeId, $acadYearId);
 
                 for ($i=1; $i<=$subClassCredit; $i++){
                     $this->scheduleServices->checkLectuererConflict($lecturerPlotId, $roomTimeId, $acadYearId);
-                    $this->scheduleServices->checkRoomTimeConflict($roomTimeId, $acadYearId);
+                    $this->scheduleServices->checkRoomTimeConflict($roomTimeId, $acadYearId, $roomTimeDay);
                     $this->scheduleServices->checkSameCourseSemester($lecturerPlotId, $roomTimeId, $acadYearId);
                     $this->scheduleServices->updateOccupied($roomTimeId, true);
                     $this->scheduleServices->insert($allocation);

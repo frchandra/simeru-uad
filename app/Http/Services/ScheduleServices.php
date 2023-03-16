@@ -64,7 +64,7 @@ class ScheduleServices{
 
     }
 
-    public function checkRoomTimeConflict($roomTimeId, $acadYearId){
+    public function checkRoomTimeConflict($roomTimeId, $acadYearId, $roomTimeDay){
         //memastikan tidak ada sub class yang terselenggara di ruang&waktu yang akan dialokasikan
         //ambil data lecturer/subclass dari roomId yang diberikan
         //cek apakah bila data diinputkan maka akan terdapat lecturer/class yang berbeda di waktu&ruang yang sama => cek apakah terdapat waktu&ruang yang sama => apakah ada data dengan waktu&ruang == waktu&ruang
@@ -74,6 +74,8 @@ class ScheduleServices{
         //if belum terdapat room
         if($roomTime == null){
             throw ValidationException::withMessages(['messages' => 'room time with id '.$roomTimeId.' is not exist']);
+        } else if ($roomTime->time->day != $roomTimeDay){
+            throw ValidationException::withMessages(['messages' => 'ruang waktu dengan id '.$roomTime->room_time_id.' terselenggara di hari yang berbeda']);
         } else if (!$oldData){        //if room time is not occupied
             return true;
         } else {
