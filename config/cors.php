@@ -33,7 +33,7 @@ return [
 
     'paths' => ['*'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['*', 'localhost:3000/'],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['X-Custom-Header', 'Upgrade-Insecure-Requests', 'X-HTTP-Method-Override', 'Content-Type', 'Accept', '*'],
     'exposed_headers' => [],
