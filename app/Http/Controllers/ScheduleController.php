@@ -58,7 +58,7 @@ class ScheduleController extends Controller
             $roomTimeId = (int)$allocation['room_time_id'];
             $lecturerPlotId = (int)$allocation['lecturer_plot_id'];
             $acadYearId = (int)$allocation['academic_year_id'];
-            $roomTimeDay = RoomTime::whereRoomTimeId($roomTimeId)->time->day;
+            $roomTimeDay = RoomTime::whereRoomTimeId($roomTimeId)->first()->time->day;
 
             try {
                 $this->scheduleServices->checkQuotaConflict($lecturerPlotId, $roomTimeId, $acadYearId);
