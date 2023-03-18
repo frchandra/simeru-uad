@@ -39,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereCourseId($value)
  * @property int $sub_class_semester
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereSubClassSemester($value)
+ * @property string|null $color_data
+ * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereColorData($value)
  */
 class Schedule extends Model{
     use HasFactory;

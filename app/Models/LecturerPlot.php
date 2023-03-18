@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|LecturerPlot whereUpdatedAt($value)
  * @property-read \App\Models\Schedule|null $schedule
  * @property-read int|null $schedule_count
+ * @property int $academic_year_id
  */
 class LecturerPlot extends Model{
     use HasFactory;

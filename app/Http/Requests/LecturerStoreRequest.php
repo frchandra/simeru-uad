@@ -47,8 +47,15 @@ class LecturerStoreRequest extends FormRequest{
      * @return array
      */
     protected function failedValidation(Validator $validator){
+        $errors = $validator->errors()->toArray();
+        $errorsMessage = array();
+
+        foreach ($errors as $error) {
+            array_push($errorsMessage, $error[0]);
+        }
+
         throw new HttpResponseException(response()->json([
-            'errors' => $validator->errors(),
+            'errors' => $errorsMessage,
             'status' => 'fail'
         ], 400));
     }

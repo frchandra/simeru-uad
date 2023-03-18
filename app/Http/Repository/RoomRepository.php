@@ -46,6 +46,8 @@ class RoomRepository{
 
     public function delete($id){
         Room::whereRoomId($id)->delete();
-//        RoomTimeHelper::whereRoomId($id)->delete();
+        //get latest academic year id
+        $acadYearId = AcademicYear::orderByDesc('created_at')->first();
+        RoomTimeHelper::whereRoomId($id)->where('academic_year_id', '=', $acadYearId->academic_year_id)->delete();
     }
 }
