@@ -29,7 +29,7 @@ class RoomRepository{
         ]);
 
         //get latest academic year id
-        $acadYearId = AcademicYear::orderByDesc('created_at')->latest();
+        $acadYearId = AcademicYear::orderByDesc('created_at')->first();
 
         for($j=1; $j<=6; $j++){ //hari
             for($k=1; $k<=12; $k++){ // sesi
