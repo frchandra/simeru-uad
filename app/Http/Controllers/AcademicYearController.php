@@ -70,6 +70,21 @@ class AcademicYearController extends Controller
                     $oldSchedule["academic_year_id"] = $resultId;
                     Schedule::create($oldSchedule);
                 }
+            } else if ($prevId == 0 ){
+                for($i=1; $i<=8; $i++){ //room
+                    for($j=1; $j<=6; $j++){ //hari
+                        for($k=1; $k<=12; $k++){ // sesi
+                            RoomTimeHelper::create([
+                                "room_id" => $i,
+                                "time_id" => (($j-1)*12)+$k,
+                                "academic_year_id" => 2,
+                                "is_occupied" => false,
+                                "is_possible" => false,
+                            ]);
+                        }
+
+                    }
+                }
             }
         }
         return response()->json([
