@@ -22,7 +22,7 @@ class RoomTimeHelperSeeder extends Seeder
                         RoomTimeHelper::create([
                             "room_id" => $i,
                             "time_id" => (($j-1)*12)+$k,
-                            "academic_year_id" => 1,
+                            "academic_year_id" => $h,
                             "is_occupied" => false,
                             "is_possible" => false,
                         ]);

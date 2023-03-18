@@ -2,6 +2,7 @@
 
 namespace App\Http\Repository;
 
+use App\Models\AcademicYear;
 use App\Models\Room;
 use App\Models\RoomTimeHelper;
 use Illuminate\Support\Collection;
@@ -27,12 +28,15 @@ class RoomRepository{
             'quota' => $quota,
         ]);
 
+        //get latest academic year id
+        $acadYearId = AcademicYear::first();
+
         for($j=1; $j<=6; $j++){ //hari
-            for($k=1; $k<=4; $k++){ // sesi
+            for($k=1; $k<=12; $k++){ // sesi
                 RoomTimeHelper::create([
                     "room_id" => $result->room_id,
-                    "time_id" => (($j-1)*4)+$k,
-                    "academic_year_id" => 1,
+                    "time_id" => (($j-1)*12)+$k,
+                    "academic_year_id" => $acadYearId->academic_year_id,
                     "is_occupied" => false,
                     "is_possible" => false,
                 ]);
