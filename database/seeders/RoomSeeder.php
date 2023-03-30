@@ -16,35 +16,55 @@ class RoomSeeder extends Seeder
     public function run(){
 //        Room::factory(3)->create();
         Room::create([
-            "name" => "E1",
+            "name" => "R.105",
+            "quota" => 100,
+        ]);
+        Room::create([
+            "name" => "R.304C",
+            "quota" => 100,
+        ]);
+        Room::create([
+            "name" => "R.304B",
+            "quota" => 100,
+        ]);
+        Room::create([
+            "name" => "Audit",
+            "quota" => 100,
+        ]);
+        Room::create([
+            "name" => "301",
             "quota" => 75,
         ]);
         Room::create([
-            "name" => "E2",
+            "name" => "401",
             "quota" => 75,
         ]);
         Room::create([
-            "name" => "E3",
+            "name" => "303",
             "quota" => 75,
         ]);
         Room::create([
-            "name" => "E4",
+            "name" => "104",
             "quota" => 75,
         ]);
         Room::create([
-            "name" => "E5",
+            "name" => "105",
             "quota" => 75,
         ]);
         Room::create([
-            "name" => "E6",
+            "name" => "313",
             "quota" => 75,
         ]);
         Room::create([
-            "name" => "E7",
+            "name" => "106",
             "quota" => 75,
         ]);
         Room::create([
-            "name" => "E8",
+            "name" => "202A",
+            "quota" => 75,
+        ]);
+        Room::create([
+            "name" => "403",
             "quota" => 75,
         ]);
     }

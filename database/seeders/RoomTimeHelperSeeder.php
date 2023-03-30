@@ -16,7 +16,7 @@ class RoomTimeHelperSeeder extends Seeder
     public function run()
     {
         for($h=1; $h<=1; $h++) {//academic year id
-            for($i=1; $i<=8; $i++){ //room
+            for($i=1; $i<=13; $i++){ //room
                 for($j=1; $j<=6; $j++){ //hari
                     for($k=1; $k<=12; $k++){ // sesi
                         RoomTimeHelper::create([
