@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(){
         $this->call([
-            LecturerSeeder::class,
-            SubClassSeeder::class,
-            RoomSeeder::class,
+//            LecturerSeeder::class,
+//            SubClassSeeder::class,
+//            RoomSeeder::class,
             TimeSeeder::class,
             AcademicYearSeeder::class,
 //            LecturerPlotSeeder::class,
