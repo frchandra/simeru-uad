@@ -159,7 +159,7 @@ class ScheduleController extends Controller
         $schedules = $this->scheduleServices->getDetailsByAcadYear($acadYearId);
         foreach ($schedules as $schedule) {
             if(isset($prev["lecturer_plot_id"]) && $prev["lecturer_plot_id"] != $schedule["lecturer_plot_id"]){
-                $data = array_push($data, $temp); //save temp data
+                array_push($data, $temp); //save temp data
                 $temp = array(); //create new empty temp
             }
             $re = '/(.*)([a-z])[^a-z]*$/i';
