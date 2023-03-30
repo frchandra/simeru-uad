@@ -38,7 +38,7 @@ class RoomTimeRepository{
     }
 
     public function createHelper($allocation){
-        return RoomTimeHelper::whereRoomId($allocation['room_id'])->where('time_id', '=', $allocation['time_id'])->update(['is_possible' => true]);
+        return RoomTimeHelper::whereRoomId($allocation['room_id'])->where('time_id', '=', $allocation['time_id'])->where('academic_year_id', '=', $allocation['academic_year_id'])->update(['is_possible' => true]);
     }
 
     public function delete($allocation){

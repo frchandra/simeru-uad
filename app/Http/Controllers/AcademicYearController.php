@@ -6,6 +6,7 @@ use App\Models\AcademicYear;
 use App\Models\LecturerCredit;
 use App\Models\LecturerPlot;
 use App\Models\OfferedSubClass;
+use App\Models\Room;
 use App\Models\RoomTime;
 use App\Models\RoomTimeHelper;
 use App\Models\Schedule;
@@ -71,7 +72,9 @@ class AcademicYearController extends Controller
                     Schedule::create($oldSchedule);
                 }
             } else if ($prevId == 0 ){
-                for($i=1; $i<=8; $i++){ //room
+                $roomsCount = Room::get()->count();
+
+                for($i=1; $i<=$roomsCount; $i++){ //room
                     for($j=1; $j<=6; $j++){ //hari
                         for($k=1; $k<=12; $k++){ // sesi
                             RoomTimeHelper::create([
@@ -86,11 +89,15 @@ class AcademicYearController extends Controller
                     }
                 }
             }
+            return response()->json([
+                "message" => "success",
+                "academic_year_id" => $resultId
+            ], 200);
         }
         return response()->json([
-            "message" => "success",
-            "academic_year_id" => $resultId
-        ], 200);
+            "message" => "fail",
+            "error" => "this academic year is already allocated"
+        ], 400);
     }
 
     /**
