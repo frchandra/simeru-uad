@@ -223,7 +223,7 @@ class ScheduleController extends Controller
             $this->scheduleServices->updateIsHeld($allocation['lecturer_plot_id'], false);
             $roomTimeIds = Schedule::whereLecturerPlotId($allocation['lecturer_plot_id'])->select(['room_time_id'])->get()->toArray();
             foreach ($roomTimeIds as $roomTimeId) {
-                $this->scheduleServices->updateOccupied($roomTimeId, false);
+                $this->scheduleServices->updateOccupied($roomTimeId, false); //BUGG
             }
             $this->scheduleServices->delete($allocation['lecturer_plot_id'], $allocation['academic_year_id']);
             return response()->json([
