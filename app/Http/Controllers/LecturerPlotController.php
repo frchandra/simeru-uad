@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Services\LecturerPlotServices;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -95,7 +96,7 @@ class LecturerPlotController extends Controller{
     public function update(Request $request){
         $allocations = $request->get('data');
         \DB::beginTransaction();
-        foreach ($allocations as $allocation){
+        foreach ($allocations as $allocation){//TODO: change lecturer on schedule (done, needs to be test)
             try {
                 $prevPlot = $this->lecturerPlotServices->getByAcadYearSubClass($allocation['academic_year_id'], $allocation['sub_class_id']);
                 if(empty($prevPlot)){ //If prev plot is empty then insert the data as usual
@@ -106,6 +107,7 @@ class LecturerPlotController extends Controller{
                     $this->lecturerPlotServices->checkLecturerAvailability($allocation['lecturer_id'], $allocation['academic_year_id'], $allocation['sub_class_id']);
                     $lecturerId = $this->lecturerPlotServices->checkPlotAvailabilityForUpdate($allocation['sub_class_id'], $allocation['academic_year_id']);
                     $this->lecturerPlotServices->allocateLecturerForUpdate($allocation, $lecturerId, $prevPlot->lecturer_plot_id);
+                    Schedule::whereLecturerId($prevPlot->lecturer_id)->where('academic_year_id', '=', $allocation['academic_year_id'])->where('sub_class_id', '=', $allocation['sub_class_id'])->update(['lecturer_id' => $allocation]);
                 }
             } catch (ValidationException $e){
                 \DB::rollBack();
