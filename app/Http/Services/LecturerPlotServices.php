@@ -48,7 +48,7 @@ class LecturerPlotServices{
         //If the lecturer has surpassed the allowed credits then return error
         $classCredit = $this->subClassRepository->show($classId)->first()->toArray()['credit'];
         $lecturerCredit = $lecturer->credit;
-        if( $lecturerCredit+$classCredit > 6){
+        if( $lecturerCredit+$classCredit > 20){
             throw ValidationException::withMessages([
                 'messages' => [
                     ['description' => 'this lecturer is already take ' . $lecturerCredit . ' credit. Cant take another '. $classCredit .' credit'],

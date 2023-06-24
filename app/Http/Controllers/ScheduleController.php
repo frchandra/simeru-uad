@@ -66,7 +66,7 @@ class ScheduleController extends Controller
                 for ($i=1; $i<=$subClassCredit; $i++){
                     $this->scheduleServices->checkLectuererConflict($lecturerPlotId, $roomTimeId, $acadYearId);
                     $this->scheduleServices->checkRoomTimeConflict($roomTimeId, $acadYearId, $roomTimeDay);
-                    $this->scheduleServices->checkSameCourseSemester($lecturerPlotId, $roomTimeId, $acadYearId);
+//                    $this->scheduleServices->checkSameCourseSemester($lecturerPlotId, $roomTimeId, $acadYearId);
                     $this->scheduleServices->updateOccupied($roomTimeId, true);
                     $this->scheduleServices->insert($allocation);
                     $roomTimeId++;
