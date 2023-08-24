@@ -71,12 +71,18 @@ class ScheduleController extends Controller
                     $this->scheduleServices->updateOccupied($roomTimeId, true);
                     $this->scheduleServices->insert($allocation);
 
-                    $currentTimeId = RoomTime::whereRoomTimeId($roomTimeId)->first()->time_id;
+                    $currentRoomTime = RoomTime::whereRoomTimeId($roomTimeId)->first();
                     if ($i != $subClassCredit){
-                        $roomTimeId = RoomTime::whereTimeId($currentTimeId+1)->first()->room_time_id;
+                        $nextRoomTime = RoomTime::whereTimeId($currentRoomTime->time_id+1)->where('room_id', '=', $currentRoomTime->room_id)->first();
+                        if ($nextRoomTime == null){
+                            throw ValidationException::withMessages(['messages' => 'ups error, something went wrong']);
+                        }
                         //check apakah roomnya masih sama dengan yang sebelumnya
-
-                        $allocation['room_time_id']=$roomTimeId;
+//                        if ($nextRoomTime->room_id != $currentRoomTime->room_id){
+//                            throw ValidationException::withMessages(['messages' => 'error, something went wrong']);
+//                        }
+                        $allocation['room_time_id']=$nextRoomTime->room_time_id;
+                        $roomTimeId = $nextRoomTime->room_time_id;
                     }
 
 

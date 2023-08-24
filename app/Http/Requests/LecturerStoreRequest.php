@@ -24,7 +24,7 @@ class LecturerStoreRequest extends FormRequest{
     public function rules(){
         return [
             'data' => 'present|required|array',
-            'data.*.name' => 'present|required|string|max:50|min:3',
+            'data.*.name' => 'present|required|string|max:50|min:1',
 //            'data.*.email' => 'email|max:50|min:5',
 //            'data.*.phone_number' => 'min:7|max:14|regex:/^[(]*[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\0-9]*$/i'
         ];
