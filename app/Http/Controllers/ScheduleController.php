@@ -63,14 +63,25 @@ class ScheduleController extends Controller
             try {
                 $this->scheduleServices->checkQuotaConflict($lecturerPlotId, $roomTimeId, $acadYearId);
 
+
                 for ($i=1; $i<=$subClassCredit; $i++){
                     $this->scheduleServices->checkLectuererConflict($lecturerPlotId, $roomTimeId, $acadYearId);
                     $this->scheduleServices->checkRoomTimeConflict($roomTimeId, $acadYearId, $roomTimeDay);
 //                    $this->scheduleServices->checkSameCourseSemester($lecturerPlotId, $roomTimeId, $acadYearId);
                     $this->scheduleServices->updateOccupied($roomTimeId, true);
                     $this->scheduleServices->insert($allocation);
-                    $roomTimeId++;
-                    $allocation['room_time_id']=$roomTimeId;
+
+                    $currentTimeId = RoomTime::whereRoomTimeId($roomTimeId)->first()->time_id;
+                    if ($i != $subClassCredit){
+                        $roomTimeId = RoomTime::whereTimeId($currentTimeId+1)->first()->room_time_id;
+                        //check apakah roomnya masih sama dengan yang sebelumnya
+
+                        $allocation['room_time_id']=$roomTimeId;
+                    }
+
+
+
+
                 }
 
                 $this->scheduleServices->updateIsHeld($lecturerPlotId, true);

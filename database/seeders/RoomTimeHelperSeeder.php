@@ -24,7 +24,7 @@ class RoomTimeHelperSeeder extends Seeder
                             "time_id" => (($j-1)*12)+$k,
                             "academic_year_id" => $h,
                             "is_occupied" => false,
-                            "is_possible" => false,
+                            "is_possible" => true,
                         ]);
                     }
 

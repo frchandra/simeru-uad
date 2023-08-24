@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OfferSubClassRequest;
 use App\Http\Services\OfferedSubClassService;
+use App\Models\LecturerCredit;
+use App\Models\LecturerPlot;
+use App\Models\SubClass;
 use Illuminate\Http\Request;
 
 class OfferedSubClassController extends Controller{
@@ -38,6 +41,7 @@ class OfferedSubClassController extends Controller{
             'status' => 'success'
         ], 201);
     }
+
 
     /**
      * Display the specified resource.
@@ -74,6 +78,10 @@ class OfferedSubClassController extends Controller{
     public function destroy(OfferSubClassRequest $request){
         $allocations = $request->get('data');
         foreach ($allocations as $allocation) {
+            $subClass = SubClass::whereSubClassId($allocation['sub_class_id'])->first();
+            $lecturerPLot = LecturerPlot::whereSubClassId($allocation['sub_class_id'])->where('academic_year_id', '=', $allocation['academic_year_id'])->first();
+            LecturerCredit::whereLecturerId($lecturerPLot->lecturer_id)->decrement('sub_class_count', 1);
+            LecturerCredit::whereLecturerId($lecturerPLot->lecturer_id)->decrement('credit', $subClass->credit);
             $this->offeredSubClassService->delete($allocation['sub_class_id'], $allocation['academic_year_id']);
         }
         return response()->json([

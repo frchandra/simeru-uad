@@ -12,14 +12,16 @@ class RoomTimeSeeder extends Seeder{
      * @return void
      */
     public function run(){
-        for($i=1; $i<4; $i++){
-            for($j=1; $j<12; $j+=2){
-                RoomTime::create([
-                    'room_id' => $i,
-                    'time_id' => $j,
-                    'academic_year_id' => 1,
-                    'is_occupied' => false,
-                ]);
+        for($i=1; $i<=13; $i++){//room
+            for($j=1; $j<=6; $j++){ //hari
+                for($k=1; $k<=12; $k++){ // sesi
+                    RoomTime::create([
+                        'room_id' => $i,
+                        'time_id' => (($j-1)*12)+$k,
+                        'academic_year_id' => 1,
+                        'is_occupied' => false,
+                    ]);
+                }
             }
         }
     }
